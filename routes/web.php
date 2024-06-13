@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/hamed', function () {
+Route::get('/hamed2', function () {
     return view('welcome');
 });
 
