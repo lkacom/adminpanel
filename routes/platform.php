@@ -2,22 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Models\Invoice;
-use App\Models\Report;
-use App\Models\Product;
+
+use App\Orchid\Screens\DashboardScreen;
 use App\Orchid\Screens\InvoiceScreen;
 use App\Orchid\Screens\PaymentScreen;
 use App\Orchid\Screens\ReportScreen;
-use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleGridScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
-use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -105,3 +95,6 @@ Route::screen('/invoice', InvoiceScreen::class)
 // Payment
 Route::screen('/transactions', PaymentScreen::class)
     ->name('platform.payment');
+
+Route::screen('/dashboard', DashboardScreen::class)
+    ->name('platform.client.dashboard');

@@ -29,7 +29,7 @@ class ReportScreen extends Screen
     public function query(): iterable
     {
 
-        $account = Invoice::query()->firstOrFail()->get();
+        $account = Invoice::query()->get();
         $data = User::filters()->defaultSort('id')->paginate();
         $today = Report::query()->whereDate('created_at', today())->get();
 

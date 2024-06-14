@@ -46,6 +46,12 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Transactions')
                 ->icon('money')
                 ->route('platform.payment'),
+            //user menu
+            Menu::make(__('Dashboard'))
+                ->icon('bs.book')
+                ->title(__('Main Menu'))
+                ->permission('platform.client')
+                ->route('platform.client.dashboard'),
 
 
             Menu::make(__('Users'))
@@ -74,9 +80,12 @@ class PlatformProvider extends OrchidServiceProvider
     public function permissions(): array
     {
         return [
+            ItemPermission::group(__('Client Menu'))
+                ->addPermission('platform.client', __('User Access Only')),
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
+
         ];
     }
 }
