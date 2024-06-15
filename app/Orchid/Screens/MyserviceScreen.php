@@ -27,7 +27,8 @@ class MyserviceScreen extends Screen
 
         $userEmail = Auth::id();
 
-        $myservice = Account::query()->where('user_id' , $userEmail)->paginate(4);
+        $myservice = Account::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
+
 
         return [
 
@@ -102,9 +103,7 @@ class MyserviceScreen extends Screen
                     TD::make('status','Status')
                         ->render(fn (Account $user) => $user->expiration_date === null
                             ? '<i class="text-danger">●</i> Expired'
-                            : '<i class="text-success">●</i> Active')
-                        ->filter(Input::make())
-                        ->sort(),
+                            : '<i class="text-success">●</i> Active'),
 
 
 

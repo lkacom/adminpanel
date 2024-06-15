@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Orchid\Access\UserAccess;
 use Orchid\Filters\Filterable;
+use Orchid\Filters\Types\Like;
+use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Metrics\Chartable;
 use Orchid\Screen\AsSource;
 
@@ -22,5 +24,28 @@ class Account extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    protected $allowedSorts = [
+        'id',
+        'name',
+        'description',
+        'expiration_date',
+    ];
+
+    use Filterable;
+
+    /**
+     * The attributes for which you can use filters in url.
+     *
+     * @var array
+     */
+    protected $allowedFilters = [
+        'id'            => Like::class,
+        'name'       => Like::class,
+        'description'        => Like::class,
+        'expiration_date'       => Like::class,
+
+    ];
+
 
 }
