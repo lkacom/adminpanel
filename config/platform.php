@@ -100,7 +100,7 @@ return [
 
 
 
-    'index' => 'platform.report',
+    'index' => 'platform.main',
 
 
     /*

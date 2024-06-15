@@ -108,6 +108,9 @@ class ServerResource extends Resource
     {
         return 23;
     }
-
+    public static function permission(): ?string
+    {
+        return 'private-Server-resource';
+    }
 }
 

@@ -103,5 +103,8 @@ class ProtocolResource extends Resource
         return 22;
     }
 
-
+    public static function permission(): ?string
+    {
+        return 'private-Protocol-resource';
+    }
 }

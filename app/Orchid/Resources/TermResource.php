@@ -113,4 +113,9 @@ class TermResource extends Resource
         return 21;
     }
 
+    public static function permission(): ?string
+    {
+        return 'private-Term-resource';
+    }
+
 }

@@ -139,5 +139,10 @@ class ProductResource extends Resource
         return 40;
     }
 
+    public static function permission(): ?string
+    {
+        return 'private-Product-resource';
+    }
+
 
 }

@@ -9,6 +9,7 @@ use App\Orchid\Screens\MyinvoiceScreen;
 use App\Orchid\Screens\MyserviceScreen;
 use App\Orchid\Screens\OrderScreen;
 use App\Orchid\Screens\PaymentScreen;
+use App\Orchid\Screens\MainScreen;
 use App\Orchid\Screens\ReportScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
@@ -31,8 +32,8 @@ use Tabuna\Breadcrumbs\Trail;
 */
 
 // Main
-Route::screen('/reports', ReportScreen::class)
-    ->name('platform.report');
+Route::screen('/main', MainScreen::class)
+    ->name('platform.main');
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
@@ -110,3 +111,8 @@ Route::screen('/myservice', MyserviceScreen::class)
 
 Route::screen('/myinvoice', MyinvoiceScreen::class)
     ->name('platform.client.myinvoice');
+
+Route::screen('/reports', ReportScreen::class)
+    ->name('platform.report');
+
+
