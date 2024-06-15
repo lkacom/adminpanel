@@ -27,11 +27,11 @@ class MyserviceScreen extends Screen
 
         $userEmail = Auth::id();
 
-        $myinvoice = Account::query()->where('user_id' , $userEmail)->get();
+        $myservice = Account::query()->where('user_id' , $userEmail)->paginate(4);
 
         return [
 
-            'table'   => ($myinvoice),
+            'table'   => ($myservice),
 
 
         ];

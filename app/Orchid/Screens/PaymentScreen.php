@@ -24,7 +24,7 @@ class PaymentScreen extends Screen
         return [
 
 
-            'table'   => Payment::filters()->defaultSort('id')->paginate(),
+            'table'   => Payment::filters()->defaultSort('id')->paginate(15),
 
 
         ];

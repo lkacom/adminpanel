@@ -19,7 +19,7 @@ class InvoiceScreen extends Screen
      */
     public function query(): iterable
     {
-        $data =Invoice::filters()->defaultSort('id')->paginate();
+        $data =Invoice::filters()->defaultSort('id')->paginate(15);
 
         return [
 

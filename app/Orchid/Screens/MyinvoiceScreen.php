@@ -22,7 +22,7 @@ class MyinvoiceScreen extends Screen
 
         $userEmail = Auth::id();
 
-        $myservice = Invoice::query()->where('user_id' , $userEmail)->get();
+        $myservice = Invoice::query()->where('user_id' , $userEmail)->paginate(10);
 
         return [
 

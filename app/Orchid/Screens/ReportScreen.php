@@ -32,7 +32,7 @@ class ReportScreen extends Screen
     {
 
         $account = Invoice::query()->get();
-        $data = User::filters()->defaultSort('id')->paginate();
+        $data = User::filters()->defaultSort('id')->paginate(10);
         $today = Report::query()->whereDate('created_at', today())->get();
 
         //Chart query for Report Page

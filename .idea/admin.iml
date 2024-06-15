@@ -134,7 +134,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/watson/active" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/endroid/qr-code" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/giauphan/laravel-qr-code" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/giauphan/qr-code" />
     </content>

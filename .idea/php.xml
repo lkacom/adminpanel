@@ -137,7 +137,6 @@
       <path value="$PROJECT_DIR$/vendor/laravel/sanctum" />
       <path value="$PROJECT_DIR$/vendor/orchid/crud" />
       <path value="$PROJECT_DIR$/vendor/orchid/icons" />
-      <path value="$PROJECT_DIR$/vendor/endroid/qr-code" />
       <path value="$PROJECT_DIR$/vendor/giauphan/qr-code" />
       <path value="$PROJECT_DIR$/vendor/giauphan/laravel-qr-code" />
     </include_path>
