@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Orchid\Screens\Examples;
+namespace App\Orchid\Screens;
 
 use Illuminate\Http\Request;
 use Orchid\Platform\Models\User;
@@ -12,7 +12,7 @@ use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
-class ExampleCardsScreen extends Screen
+class CardsScreen extends Screen
 {
     /**
      * Fetch data to be displayed on the screen.

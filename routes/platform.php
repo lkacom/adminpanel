@@ -11,7 +11,7 @@ use App\Orchid\Screens\OrderScreen;
 use App\Orchid\Screens\PaymentScreen;
 use App\Orchid\Screens\MainScreen;
 use App\Orchid\Screens\ReportScreen;
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
+use App\Orchid\Screens\CardsScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -86,7 +86,7 @@ Route::screen('roles', RoleListScreen::class)
 
 
 
-Route::screen('/cards', ExampleCardsScreen::class)->name('platform.cards');
+Route::screen('/cards', CardsScreen::class)->name('platform.cards');
 
 
 
