@@ -5,8 +5,6 @@ namespace App\Orchid\Screens;
 use App\Models\Invoice;
 use App\Models\Report;
 use App\Models\User;
-use App\Orchid\Layouts\Examples\ChartBarExample;
-use App\Orchid\Layouts\Examples\ChartLineExample;
 use App\Orchid\Layouts\ReportChart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;

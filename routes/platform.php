@@ -5,6 +5,9 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\DashboardScreen;
 use App\Orchid\Screens\InvoiceScreen;
+use App\Orchid\Screens\MyinvoiceScreen;
+use App\Orchid\Screens\MyserviceScreen;
+use App\Orchid\Screens\OrderScreen;
 use App\Orchid\Screens\PaymentScreen;
 use App\Orchid\Screens\ReportScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
@@ -98,3 +101,12 @@ Route::screen('/transactions', PaymentScreen::class)
 
 Route::screen('/dashboard', DashboardScreen::class)
     ->name('platform.client.dashboard');
+
+Route::screen('/order', OrderScreen::class)
+    ->name('platform.client.order');
+
+Route::screen('/myservice', MyserviceScreen::class)
+    ->name('platform.client.myservice');
+
+Route::screen('/myinvoice', MyinvoiceScreen::class)
+    ->name('platform.client.myinvoice');

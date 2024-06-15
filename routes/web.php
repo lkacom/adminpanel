@@ -15,3 +15,13 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('qr-code', function () {
+    $path = public_path().'/qr-code.png';
+    $filename = '/qr-code.png';
+    QRCode::text('QR Code Generator for Laravel!')
+        ->setOutfile($path )
+        ->png();
+    return '<img src=' . $filename . '>';
+});
+

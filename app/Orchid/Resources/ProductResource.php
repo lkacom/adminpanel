@@ -57,7 +57,7 @@ class ProductResource extends Resource
 
     public static function icon(): string
     {
-        return 'basket';
+        return 'handbag';
     }
     public static function description(): ?string
     {

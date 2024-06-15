@@ -137,8 +137,12 @@
       <path value="$PROJECT_DIR$/vendor/laravel/sanctum" />
       <path value="$PROJECT_DIR$/vendor/orchid/crud" />
       <path value="$PROJECT_DIR$/vendor/orchid/icons" />
+      <path value="$PROJECT_DIR$/vendor/endroid/qr-code" />
+      <path value="$PROJECT_DIR$/vendor/giauphan/qr-code" />
+      <path value="$PROJECT_DIR$/vendor/giauphan/laravel-qr-code" />
     </include_path>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>

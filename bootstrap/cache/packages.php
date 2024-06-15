@@ -1,4 +1,15 @@
 <?php return array (
+  'giauphan/laravel-qr-code' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'LaravelQRCode\\Providers\\QRCodeServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'QRCode' => 'LaravelQRCode\\Facades\\QRCode',
+    ),
+  ),
   'laravel/fortify' => 
   array (
     'providers' => 
