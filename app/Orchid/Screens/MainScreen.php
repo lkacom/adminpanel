@@ -23,7 +23,7 @@ class MainScreen extends Screen
      */
     public function name(): ?string
     {
-        return 'MainScreen';
+        return 'Home';
     }
 
     /**

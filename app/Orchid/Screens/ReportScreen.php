@@ -23,6 +23,10 @@ use App\Orchid\Resources\ClientResource;
 class ReportScreen extends Screen
 {
 
+    public function permission(): ?iterable
+    {
+        return ['platform.admin'];
+    }
 
     public function query(): iterable
     {

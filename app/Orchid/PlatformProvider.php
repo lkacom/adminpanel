@@ -49,7 +49,21 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('money')
                 ->permission('platform.admin')
                 ->route('platform.payment'),
-            //user menu
+
+
+            Menu::make(__('Users'))
+                ->icon('bs.people')
+                ->route('platform.systems.users')
+                ->permission('platform.systems.users')
+                ->title(__('Access Controls')),
+
+            Menu::make(__('Roles'))
+                ->icon('bs.shield')
+                ->route('platform.systems.roles')
+                ->permission('platform.systems.roles')
+                ->divider(),
+
+            //Client Menu
             Menu::make(__('Dashboard'))
                 ->icon('bs.book')
                 ->title(__('Main Menu'))
@@ -72,21 +86,6 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.client.order'),
 
 
-            Menu::make(__('Users'))
-                ->icon('bs.people')
-                ->route('platform.systems.users')
-                ->permission('platform.systems.users')
-                ->title(__('Access Controls')),
-
-            Menu::make(__('Roles'))
-                ->icon('bs.shield')
-                ->route('platform.systems.roles')
-                ->permission('platform.systems.roles')
-                ->divider(),
-
-            //Client Menu
-
-
         ];
     }
 
@@ -102,6 +101,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('platform.client', __('User Access Only')),
             ItemPermission::group(__('Admin Menu'))
                 ->addPermission('platform.admin', __('Admin Access')),
+
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
