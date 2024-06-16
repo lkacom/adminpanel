@@ -17,6 +17,12 @@ use Orchid\Support\Facades\Layout;
 
 class MyserviceScreen extends Screen
 {
+
+    public function permission(): ?iterable
+    {
+        return ['platform.client'];
+    }
+
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -52,10 +58,7 @@ class MyserviceScreen extends Screen
         return 'List Services and orders';
     }
 
-    public static function perPage(): int
-    {
-        return 20;
-    }    /**
+   /**
      * The screen's action buttons.
      *
      * @return \Orchid\Screen\Action[]

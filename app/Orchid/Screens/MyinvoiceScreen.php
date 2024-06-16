@@ -12,6 +12,11 @@ use Orchid\Support\Facades\Layout;
 
 class MyinvoiceScreen extends Screen
 {
+
+    public function permission(): ?iterable
+    {
+        return ['platform.client'];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *

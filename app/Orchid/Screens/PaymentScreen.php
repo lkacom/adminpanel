@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Request;
 
 class PaymentScreen extends Screen
 {
+
+    public function permission(): ?iterable
+    {
+        return ['platform.admin'];
+    }
+
     /**
      * Fetch data to be displayed on the screen.
      *

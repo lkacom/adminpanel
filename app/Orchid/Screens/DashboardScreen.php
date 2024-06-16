@@ -7,6 +7,10 @@ use Orchid\Screen\Screen;
 class DashboardScreen extends Screen
 {
 
+    public function permission(): ?iterable
+    {
+        return ['platform.client'];
+    }
 
 
     /**
