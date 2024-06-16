@@ -108,7 +108,7 @@ class DashboardScreen extends Screen
 
             Layout::rows([
                 Label::make('title')
-                    ->title(__('For Copy config to clipboard please click on QRcode ')),
+                    ->title(__('Last Config')),
             ]),
             Layout::columns([
                 Layout::table('table', [
@@ -116,14 +116,22 @@ class DashboardScreen extends Screen
                     TD::make('name',__('Type')),
                     TD::make('expiration_date',__('Expire Date')),
                     TD::make('config',__('Config'))
+                        ->popover(__('Click on QRcode for Copy Config'))
                         ->render(function ($invoice) {
                             $path = public_path().'/qr-code.png';
                             $text = $invoice->config;
                             QRCode::text($invoice->config)->setOutfile($path)->setSize(2)->png();
                             return '<img src="' . asset('qr-code.png') . '" onclick="copyToClipboard(\'' . $text . '\')" style="cursor: pointer;">';                        }),
 
+                    TD::make('config',__('Copy Config'))
+                    ->render(function ($invoice) {
+                        $copy = $invoice->config;
+                        return '<span  " onclick="copyToClipboard(\'' . $copy . '\')" style="cursor: pointer;">Copy to ClipBoard</span>';                        }),
 
-                    TD::make('status',__('Status'))
+
+
+
+                        TD::make('status',__('Status'))
                         ->render(fn (Account $user) => $user->expiration_date === null
                             ? '<i class="text-danger">●</i> Expired'
                             : '<i class="text-success">●</i> Active'),
@@ -137,6 +145,10 @@ class DashboardScreen extends Screen
 
             ]),
 
+            Layout::rows([
+                Label::make('title')
+                    ->title(__('Note: For Copy config to clipboard please click on QRcode ')),
+            ]),
 
         ];
     }

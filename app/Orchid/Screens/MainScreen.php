@@ -3,6 +3,7 @@
 namespace App\Orchid\Screens;
 
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Layout;
 
 class MainScreen extends Screen
 {
@@ -43,6 +44,20 @@ class MainScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [];
+
+        $template = Layout::view('platform::main.main');
+
+        return [
+
+//                        Layout::split([
+//                $template,
+//                $template,
+//            ])->ratio('50/50'),
+            Layout::Blank([
+                $template,
+
+            ]),
+
+        ];
     }
 }
