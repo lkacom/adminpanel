@@ -31749,3 +31749,12 @@ Did you mean one of these?
 #70 D:\\wamp64\\www\\laravel\\admin\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\wamp64\\\\www\\\\l...')
 #71 {main}
 "} 
+[2024-06-16 09:48:28] panel.ERROR: Command "زززsdfز" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"زززsdfز\" is not defined. at D:\\wamp64\\www\\laravel\\admin\\vendor\\symfony\\console\\Application.php:702)
+[stacktrace]
+#0 D:\\wamp64\\www\\laravel\\admin\\vendor\\symfony\\console\\Application.php(258): Symfony\\Component\\Console\\Application->find('\\xD8\\xB2\\xD8\\xB2\\xD8\\xB2sdf\\xD8\\xB2')
+#1 D:\\wamp64\\www\\laravel\\admin\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 D:\\wamp64\\www\\laravel\\admin\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(196): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 D:\\wamp64\\www\\laravel\\admin\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1198): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 D:\\wamp64\\www\\laravel\\admin\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#5 {main}
+"} 
