@@ -99,7 +99,6 @@ class MyserviceScreen extends Screen
                             $path = public_path().'/qr-code.png';
                             $text = $invoice->config;
                             QRCode::text($invoice->config)->setOutfile($path)->setSize(2)->png();
-                            $filename = '/qr-code.png';
                             return '<img src="' . asset('qr-code.png') . '" onclick="copyToClipboard(\'' . $text . '\')" style="cursor: pointer;">';                        }),
 
 

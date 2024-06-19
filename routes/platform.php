@@ -101,36 +101,26 @@ Route::screen('/transactions', PaymentScreen::class)
     ->name('platform.payment');
 
 Route::screen('/dashboard', DashboardScreen::class)
-    ->name('platform.client.dashboard');
-
-Route::screen('/order', OrderScreen::class)
-    ->name('platform.client.order');
+    ->name('client.dashboard');
 
 Route::screen('order', OrderScreen::class)
-    ->name('platform.client.order')
+    ->name('client.order')
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
             ->push('Order');
     });
 
-
-Route::screen('/myservice', MyserviceScreen::class)
-    ->name('platform.client.myservice');
-
 Route::screen('myservice', MyserviceScreen::class)
-    ->name('platform.client.myservice')
+    ->name('client.myservice')
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
             ->push('Service');
     });
 
-Route::screen('/myinvoice', MyinvoiceScreen::class)
-    ->name('platform.client.myinvoice');
-
 Route::screen('myinvoice', MyinvoiceScreen::class)
-    ->name('platform.client.myinvoice')
+    ->name('client.myinvoice')
     ->breadcrumbs(function (Trail $trail){
         return $trail
             ->parent('platform.index')
@@ -140,5 +130,8 @@ Route::screen('myinvoice', MyinvoiceScreen::class)
 
 Route::screen('/reports', ReportScreen::class)
     ->name('platform.report');
+
+Route::screen('buy/{id}', OrderScreen::class)
+    ->name('client.buy');
 
 

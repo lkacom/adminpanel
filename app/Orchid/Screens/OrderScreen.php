@@ -78,7 +78,7 @@ class OrderScreen extends Screen
                     TD::make('action', __('Action'))
                         ->render(function ($product) {
                             return Link::make('Order Now')
-                                ->href('/buy/' . $product['id'])
+                                ->route('client.buy' , $product['id'])
                                 ->icon('basket');
                         }),
                 ]),
