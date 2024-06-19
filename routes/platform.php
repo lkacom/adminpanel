@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use App\Orchid\Screens\DashboardScreen;
 use App\Orchid\Screens\InvoiceScreen;
+use App\Orchid\Screens\LinkScreen;
 use App\Orchid\Screens\MyinvoiceScreen;
 use App\Orchid\Screens\MyserviceScreen;
 use App\Orchid\Screens\OrderScreen;
@@ -92,7 +93,7 @@ Route::screen('/cards', CardsScreen::class)->name('platform.cards');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
 
-// Ivoice
+// Invoice
 Route::screen('/invoice', InvoiceScreen::class)
     ->name('platform.invoice');
 
@@ -130,7 +131,7 @@ Route::screen('myinvoice', MyinvoiceScreen::class)
 Route::screen('/reports', ReportScreen::class)
     ->name('platform.report');
 
-Route::screen('buy/{id}', OrderScreen::class)
+Route::screen('buy/{id}', LinkScreen::class)
     ->name('client.buy');
 
 
