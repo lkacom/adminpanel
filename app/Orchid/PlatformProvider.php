@@ -70,7 +70,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->permission('platform.client')
                 ->route('client.dashboard'),
 
-            Menu::make(__('My Services'))
+            Menu::make(__('My Orders'))
                 ->icon('credit-card')
                 ->permission('platform.client')
                 ->route('client.myservice'),
