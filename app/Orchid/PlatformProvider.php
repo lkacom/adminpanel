@@ -68,22 +68,22 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.book')
                 ->title(__('Main Menu'))
                 ->permission('platform.client')
-                ->route('platform.client.dashboard'),
+                ->route('client.dashboard'),
 
             Menu::make(__('My Services'))
                 ->icon('credit-card')
                 ->permission('platform.client')
-                ->route('platform.client.myservice'),
+                ->route('client.myservice'),
 
             Menu::make(__('My Invoice'))
                 ->icon('calculator')
                 ->permission('platform.client')
-                ->route('platform.client.myinvoice'),
+                ->route('client.myinvoice'),
 
             Menu::make(__('New Order'))
                 ->icon('basket')
                 ->permission('platform.client')
-                ->route('platform.client.order'),
+                ->route('client.order'),
 
 
         ];
@@ -98,7 +98,7 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
             ItemPermission::group(__('Client Menu'))
-                ->addPermission('platform.client', __('User Access Only')),
+                ->addPermission('client', __('User Access Only')),
             ItemPermission::group(__('Admin Menu'))
                 ->addPermission('platform.admin', __('Admin Access')),
 

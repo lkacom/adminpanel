@@ -16,7 +16,7 @@ class Account extends Model
 {
     use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
 
-    protected $table = 'accounts';
+    protected $table = 'orders';
 
     protected $fillable = ['name', 'trial', 'user_id'];
 
