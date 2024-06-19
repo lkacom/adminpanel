@@ -93,7 +93,7 @@ Route::screen('/cards', CardsScreen::class)->name('platform.cards');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
 
-// Ivoice
+// Invoice
 Route::screen('/invoice', InvoiceScreen::class)
     ->name('platform.invoice');
 
