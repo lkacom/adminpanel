@@ -13,13 +13,13 @@
     <meta name="theme-color" content="#21252a">
 @endpush
 
-<div class="h2 d-flex align-items-center">
+<div class="h2 d-flex align-items-center justify-content-center">
     @auth
         <x-orchid-icon path="bs.house" class="d-inline d-xl-none"/>
     @endauth
 
 
     <p class="my-0 {{ auth()->check() ? 'd-none d-xl-block' : '' }}">
-        {{ config('app.name') }}
+        {{ config('app.name') }} <small>v3.1</small>
     </p>
 </div>

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Orchid\Platform\Models\Role;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +13,41 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => 'admin',
+            'email_verified_at' => now(),
+            'verification_code'=>'11111',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+
+        Role::create([
+            'slug' => 'admin',
+            'name' => 'Admin',
+            'permissions' => [
+                "platform.index"    => 1,
+                "admin.roles"       => 1,
+                "admin.users"       => 1,
+                ],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        Role::create([
+            'slug'  => 'client',
+            'name'  => 'Client',
+            'permissions' => [
+                "platform.index"    => 1,
+            ],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        User::where('email','admin@admin.com')->first()->addRole(
+            Role::where('name','admin')->get()->first()
+        );
     }
 }

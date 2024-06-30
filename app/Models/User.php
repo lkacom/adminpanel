@@ -2,60 +2,54 @@
 
 namespace App\Models;
 
-
+use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Orchid\Platform\Models\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
+use Orchid\Access\UserAccess;
+use Orchid\Filters\Filterable;
+use Orchid\Metrics\Chartable;
+use Orchid\Platform\Models\User as OrchidUser;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Orchid\Screen\AsSource;
 
-class User extends Authenticatable
+class User extends OrchidUser implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'users' ;
+
     protected $fillable = [
-        'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
+        'permissions',
         'two_factor_recovery_codes',
         'two_factor_secret',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
+    protected $allowedSorts = [
+        'id',
+        'email',
+        'created_at',
+    ];
+
     protected $appends = [
         'profile_photo_url',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -64,7 +58,24 @@ class User extends Authenticatable
         ];
     }
 
+    public function setPasswordAttribute($value)
+    {
+        if (!empty($value)) {
+            $this->attributes['password'] = Hash::make($value);
+        }
+    }
 
+    public function createActivationCode()
+    {
+        $verificationCode = rand(10000, 99999);
+        $this->verification_code = $verificationCode;
+        $this->save();
+    }
 
+    public function sendEmailVerificationNotification()
+    {
+        $this->createActivationCode();
+        $this->notify(new VerifyEmail);
+    }
+    
 }
-

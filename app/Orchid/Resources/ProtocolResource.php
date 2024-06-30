@@ -2,40 +2,61 @@
 
 namespace App\Orchid\Resources;
 
+use App\Models\Protocol;
 use Orchid\Crud\Resource;
 use Orchid\Screen\TD;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Sight;
 
 class ProtocolResource extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = \App\Models\Protocol::class;
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @return array
-     */
+    public static $model = Protocol::class;
+
+    public static function permission(): ?string
+    {
+        return 'admin.protocols';
+    }
+
+    public static function icon(): string
+    {
+        return 'shield';
+    }
+
+    public static function description(): ?string
+    {
+        return 'Protocol list Available';
+    }
+
+    public static function label(): string
+    {
+        return 'Protocols';
+
+    }
+
+    public static function perPage(): int
+    {
+        return 30;
+    }
+
+    public static function displayInNavigation(): bool
+    {
+        return false;
+    }
+
+    public function filters(): array
+    {
+        return [];
+    }
+
     public function fields(): array
     {
         return [
             Input::make('protocol_name')->horizontal()
                 ->title('VPN Protocol')
                 ->placeholder('Enter Protocol Connection'),
-
         ];
     }
 
-    /**
-     * Get the columns displayed by the resource.
-     *
-     * @return TD[]
-     */
     public function columns(): array
     {
         return [
@@ -54,57 +75,9 @@ class ProtocolResource extends Resource
         ];
     }
 
-    public static function icon(): string
-    {
-        return 'shield';
-    }
-    public static function description(): ?string
-    {
-        return 'Protocol list Avilable';
-    }
-    public static function label(): string
-    {
-        return 'Protocol Managment';
-
-    }
-    /**
-     * Get the sights displayed by the resource.
-     *
-     * @return Sight[]
-     */
     public function legend(): array
     {
         return [];
     }
 
-    /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public function filters(): array
-    {
-        return [];
-    }
-
-    public static function perPage(): int
-    {
-        return 30;
-    }
-
-    public static function displayInNavigation(): bool
-    {
-        return true;
-    }
-
-
-    public static function sort(): string
-    {
-        return 22;
-    }
-
-    public static function permission(): ?string
-    {
-        return 'private-Protocol-resource';
-    }
 }

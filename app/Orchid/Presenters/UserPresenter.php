@@ -25,7 +25,7 @@ class UserPresenter extends Presenter implements Personable, Searchable
      */
     public function title(): string
     {
-        return $this->entity->name;
+        return $this->entity->email;
     }
 
     /**
@@ -45,7 +45,7 @@ class UserPresenter extends Presenter implements Personable, Searchable
      */
     public function url(): string
     {
-        return route('platform.systems.users.edit', $this->entity);
+        return route('admin.users.edit', $this->entity);
     }
 
     /**

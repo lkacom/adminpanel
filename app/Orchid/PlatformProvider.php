@@ -1,111 +1,152 @@
 <?php
-
-declare(strict_types=1);
-
 namespace App\Orchid;
 
-use Orchid\Platform\Dashboard;
-use Orchid\Platform\ItemPermission;
+use App\Orchid\Resources\PeriodResource;
+use App\Orchid\Resources\ProductResource;
+use App\Orchid\Resources\ProtocolResource;
+use App\Orchid\Resources\ServerResource;
+use Auth;
 use Orchid\Platform\OrchidServiceProvider;
+use Orchid\Platform\ItemPermission;
 use Orchid\Screen\Actions\Menu;
-use Orchid\Support\Color;
 
 class PlatformProvider extends OrchidServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @param Dashboard $dashboard
-     *
-     * @return void
-     */
-    public function boot(Dashboard $dashboard): void
-    {
-        parent::boot($dashboard);
-
-        // ...
-    }
-
-    /**
-     * Register the application menu.
-     *
-     * @return Menu[]
-     */
     public function menu(): array
     {
         return [
 
-            Menu::make('Dashboard')
-                ->icon('bs.book')
-                ->permission('platform.admin')
-                ->route('platform.report'),
+            // Admin menu
+            Auth::user()->hasAnyAccess('admin.*.menu')?
+            Menu::make()
+                ->active('*')
+                ->slug('admin-menu')
+                ->title('Admin Menu')
+                ->list([
+                    Menu::make('Dashboard')
+                        ->icon('bs.book')
+                        ->permission('admin.dashboard.menu')
+                        ->route('admin.dashboard'),
 
-            Menu::make('Invoice')
-                ->icon('task')
-                ->permission('platform.admin')
-                ->route('platform.invoice'),
+                    Menu::make('Invoices')
+                        ->icon('task')
+                        ->permission('admin.invoices.menu')
+                        ->route('admin.invoices'),
 
-            Menu::make('Transactions')
-                ->icon('money')
-                ->permission('platform.admin')
-                ->route('platform.payment'),
+                    Menu::make('Transactions')
+                        ->icon('money')
+                        ->permission('admin.transactions.menu')
+                        ->route('admin.transactions'),
 
+                    Menu::make(__('Users'))
+                        ->icon('bs.people')
+                        ->permission('admin.users.menu')
+                        ->route('admin.users'),
 
-            Menu::make(__('Users'))
-                ->icon('bs.people')
-                ->route('platform.systems.users')
-                ->permission('platform.systems.users')
-                ->title(__('Access Controls')),
+                    Menu::make(__('Roles'))
+                        ->icon('bs.shield')
+                        ->permission('admin.roles.menu')
+                        ->route('admin.roles'),
 
-            Menu::make(__('Roles'))
-                ->icon('bs.shield')
-                ->route('platform.systems.roles')
-                ->permission('platform.systems.roles')
-                ->divider(),
+                    Menu::make(__('Protocols'))
+                        ->icon('shield')
+                        ->permission('admin.protocols.menu')
+                        ->route('platform.resource.list', [ProtocolResource::uriKey()]),
 
-            //Client Menu
-            Menu::make(__('Dashboard'))
-                ->icon('bs.book')
-                ->title(__('Main Menu'))
-                ->permission('platform.client')
-                ->route('client.dashboard'),
+                    Menu::make(__('Periods'))
+                        ->icon('speedometer')
+                        ->permission('admin.periods.menu')
+                        ->route('platform.resource.list', [PeriodResource::uriKey()]),
 
-            Menu::make(__('My Orders'))
-                ->icon('credit-card')
-                ->permission('platform.client')
-                ->route('client.myservice'),
+                    Menu::make(__('Servers'))
+                        ->icon('server')
+                        ->permission('admin.servers.menu')
+                        ->route('platform.resource.list', [ServerResource::uriKey()]),
 
-            Menu::make(__('My Invoice'))
-                ->icon('calculator')
-                ->permission('platform.client')
-                ->route('client.myinvoice'),
+                    Menu::make(__('Products'))
+                        ->icon('handbag')
+                        ->permission('admin.products.menu')
+                        ->route('platform.resource.list', [ProductResource::uriKey()]),
+                ]):Menu::make(),
 
-            Menu::make(__('New Order'))
-                ->icon('basket')
-                ->permission('platform.client')
-                ->route('client.order'),
+            // Client Menu
+            Auth::user()->hasAnyAccess('client.*.menu')?
+                Menu::make()
+                    ->active('*')
+                    ->slug('client-menu')
+                    ->title('Client Menu')
+                    ->list([
+                        Menu::make(__('Dashboard'))
+                            ->icon('bs.book')
+                            ->permission('client.dashboard.menu')
+                            ->route('client.dashboard'),
 
+                        Menu::make(__('My Orders'))
+                            ->icon('credit-card')
+                            ->permission('client.orders.menu')
+                            ->route('client.orders'),
 
+                        Menu::make(__('Shop'))
+                            ->icon('basket')
+                            ->permission('client.shop.menu')
+                            ->route('client.shop'),
+
+                        Menu::make(__('My Invoices'))
+                            ->icon('calculator')
+                            ->permission('client.invoices.menu')
+                            ->route('client.invoices'),
+
+                        Menu::make(__('Profile'))
+                            ->icon('user')
+                            ->permission('client.profile.menu')
+                            ->route('client.profile'),
+                    ])
+                :Menu::make()
         ];
     }
 
-    /**
-     * Register permissions for the application.
-     *
-     * @return ItemPermission[]
-     */
     public function permissions(): array
     {
         return [
-            ItemPermission::group(__('Client Menu'))
-                ->addPermission('client', __('User Access Only')),
-            ItemPermission::group(__('Admin Menu'))
-                ->addPermission('platform.admin', __('Admin Access')),
 
-            ItemPermission::group(__('System'))
-                ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+            // Client Permissions - Begin
+            ItemPermission::group(__('Client Menu Access'))
+                ->addPermission('client.dashboard.menu' , 'Dashboard')
+                ->addPermission('client.orders.menu'    , 'Orders')
+                ->addPermission('client.shop.menu'      , 'Shop')
+                ->addPermission('client.invoices.menu'  , 'Invoices')
+                ->addPermission('client.profile.menu'   , 'Profile'),
 
+            ItemPermission::group(__('Client Resource Access'))
+                ->addPermission('client.dashboard'      , 'dashboard.index')
+                ->addPermission('client.orders.index'   , 'orders.index')
+                ->addPermission('client.orders.index'   , 'orders.renew')
+                ->addPermission('client.shop.index'     , 'shop.index')
+                ->addPermission('client.order.new'      , 'order.new')
+                ->addPermission('client.invoices.index' , 'invoices.index')
+                ->addPermission('client.profile.index'  , 'profile.index')
+                ->addPermission('client.profile.update' , 'profile.update'),
+            // Client Permissions - End
+
+            // Admin Permissions - Begin
+            ItemPermission::group(__('Admin Menu Access'))
+                ->addPermission('admin.dashboard.menu'       , __('Dashboard'))
+                ->addPermission('admin.invoices.menu'        , __('Invoices'))
+                ->addPermission('admin.transactions.menu'    , __('Transactions'))
+                ->addPermission('admin.roles.menu'           , __('Roles'))
+                ->addPermission('admin.users.menu'           , __('Users'))
+                ->addPermission('admin.products.menu'        , __('Products'))
+                ->addPermission('admin.servers.menu'         , __('Servers'))
+                ->addPermission('admin.periods.menu'         , __('Periods'))
+                ->addPermission('admin.protocols.menu'       , __('Protocols')),
+
+            ItemPermission::group(__('Admin Resource Access'))
+                ->addPermission('admin.dashboard'       , __('Dashboard'))
+                ->addPermission('admin.invoices'        , __('Invoices'))
+                ->addPermission('admin.transactions'    , __('Transactions'))
+                ->addPermission('admin.roles'           , __('Roles'))
+                ->addPermission('admin.users'           , __('Users')),
+            // Admin Permissions - End
         ];
     }
 }

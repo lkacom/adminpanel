@@ -19,9 +19,8 @@
     @endif
 
     @stack('head')
-
     <meta name="view-transition" content="same-origin">
-    <meta name="turbo-root" content="{{  Dashboard::prefix() }}">
+    <meta name="turbo-root" content="{{  Dashboard::prefix() }}/off">
     <meta name="turbo-refresh-method" content="{{ config('platform.turbo.refresh-method', 'replace') }}">
     <meta name="turbo-refresh-scroll" content="{{ config('platform.turbo.refresh-scroll', 'reset') }}">
     <meta name="turbo-prefetch" content="{{ var_export(config('platform.turbo.prefetch', true)) }}">

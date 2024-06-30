@@ -14,15 +14,11 @@ class Server extends Model
 {
     use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
 
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'servers' ;
 
-    protected $fillable = ['server_name'];
+    protected $fillable = [
+        'server_name'
+    ];
 
 
 

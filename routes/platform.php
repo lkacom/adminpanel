@@ -3,136 +3,45 @@
 declare(strict_types=1);
 
 
-use App\Orchid\Screens\DashboardScreen;
-use App\Orchid\Screens\InvoiceScreen;
-use App\Orchid\Screens\LinkScreen;
-use App\Orchid\Screens\MyinvoiceScreen;
-use App\Orchid\Screens\MyserviceScreen;
-use App\Orchid\Screens\OrderScreen;
-use App\Orchid\Screens\PaymentScreen;
+use App\Orchid\Screens\Admin\InvoiceScreen;
+use App\Orchid\Screens\Admin\TransactionScreen;
+use App\Orchid\Screens\Admin\DashboardScreen as AdminDashboardScreen;
+use App\Orchid\Screens\Admin\Role\RoleEditScreen;
+use App\Orchid\Screens\Admin\Role\RoleListScreen;
+use App\Orchid\Screens\Admin\User\UserEditScreen;
+use App\Orchid\Screens\Admin\User\UserListScreen;
+use App\Orchid\Screens\Client\DashboardScreen as ClientDashboardScreen;
+use App\Orchid\Screens\Client\InvoicesScreen as ClientInvoicesScreen;
+use App\Orchid\Screens\Client\Orders\OrdersScreen;
+use App\Orchid\Screens\Client\OrderScreen;
+use App\Orchid\Screens\Client\ProfileScreen;
+use App\Orchid\Screens\Client\ShopScreen;
 use App\Orchid\Screens\MainScreen;
-use App\Orchid\Screens\ReportScreen;
-use App\Orchid\Screens\CardsScreen;
-use App\Orchid\Screens\Role\RoleEditScreen;
-use App\Orchid\Screens\Role\RoleListScreen;
-use App\Orchid\Screens\User\UserEditScreen;
-use App\Orchid\Screens\User\UserListScreen;
-use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
-use Tabuna\Breadcrumbs\Trail;
 
-/*
-|--------------------------------------------------------------------------
-| Dashboard Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the need "dashboard" middleware group. Now create something great!
-|
-*/
+Route::screen('home', MainScreen::class)->name('panel.home');
 
-// Main
-Route::screen('/main', MainScreen::class)
-    ->name('platform.main');
+Route::group(['prefix' => 'admin'], function () {
+    Route::screen('dashboard'           , AdminDashboardScreen::class)  ->name('admin.dashboard');
+    Route::screen('users'               , UserListScreen::class)        ->name('admin.users');
+    Route::screen('users/{user}/edit'   , UserEditScreen::class)        ->name('admin.users.edit');
+    Route::screen('users/create'        , UserEditScreen::class)        ->name('admin.users.create');
+    Route::screen('roles'               , RoleListScreen::class)        ->name('admin.roles');
+    Route::screen('roles/{role}/edit'   , RoleEditScreen::class)        ->name('admin.roles.edit');
+    Route::screen('roles/create'        , RoleEditScreen::class)        ->name('admin.roles.create');
+    Route::screen('invoices'            , InvoiceScreen::class)         ->name('admin.invoices');
+    Route::screen('transactions'        , TransactionScreen::class)     ->name('admin.transactions');
+});
 
-// Platform > Profile
-Route::screen('profile', UserProfileScreen::class)
-    ->name('platform.profile')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Profile'), route('platform.profile')));
-
-// Platform > System > Users > User
-Route::screen('users/{user}/edit', UserEditScreen::class)
-    ->name('platform.systems.users.edit')
-    ->breadcrumbs(fn (Trail $trail, $user) => $trail
-        ->parent('platform.systems.users')
-        ->push($user->name, route('platform.systems.users.edit', $user)));
-
-// Platform > System > Users > Create
-Route::screen('users/create', UserEditScreen::class)
-    ->name('platform.systems.users.create')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.systems.users')
-        ->push(__('Create'), route('platform.systems.users.create')));
-
-// Platform > System > Users
-Route::screen('users', UserListScreen::class)
-    ->name('platform.systems.users')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Users'), route('platform.systems.users')));
-
-// Platform > System > Roles > Role
-Route::screen('roles/{role}/edit', RoleEditScreen::class)
-    ->name('platform.systems.roles.edit')
-    ->breadcrumbs(fn (Trail $trail, $role) => $trail
-        ->parent('platform.systems.roles')
-        ->push($role->name, route('platform.systems.roles.edit', $role)));
-
-// Platform > System > Roles > Create
-Route::screen('roles/create', RoleEditScreen::class)
-    ->name('platform.systems.roles.create')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.systems.roles')
-        ->push(__('Create'), route('platform.systems.roles.create')));
-
-// Platform > System > Roles
-Route::screen('roles', RoleListScreen::class)
-    ->name('platform.systems.roles')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
-        ->push(__('Roles'), route('platform.systems.roles')));
-
-
-
-Route::screen('/cards', CardsScreen::class)->name('platform.cards');
-
-
-
-//Route::screen('idea', Idea::class, 'platform.screens.idea');
-
-// Invoice
-Route::screen('/invoice', InvoiceScreen::class)
-    ->name('platform.invoice');
-
-// Payment
-Route::screen('/transactions', PaymentScreen::class)
-    ->name('platform.payment');
-
-Route::screen('/dashboard', DashboardScreen::class)
-    ->name('client.dashboard');
-
-Route::screen('order', OrderScreen::class)
-    ->name('client.order')
-    ->breadcrumbs(function (Trail $trail){
-        return $trail
-            ->parent('platform.index')
-            ->push('Order');
+Route::group(['prefix' => 'client'], function (){
+    Route::middleware(['verified'])->group(function () {
+        Route::screen('profile'             , ProfileScreen::class)         ->name('client.profile');
+        Route::screen('dashboard'           , ClientDashboardScreen::class) ->name('client.dashboard');
+        Route::screen('shop'                , ShopScreen::class)            ->name('client.shop');
+        Route::screen('order-history'       , OrdersScreen::class)          ->name('client.orders');
+        Route::screen('my-invoices'         , ClientInvoicesScreen::class)  ->name('client.invoices');
+        Route::screen('buy/{id}'            , OrderScreen::class)           ->name('client.buy');
     });
-
-Route::screen('myservice', MyserviceScreen::class)
-    ->name('client.myservice')
-    ->breadcrumbs(function (Trail $trail){
-        return $trail
-            ->parent('platform.index')
-            ->push('Service');
-    });
-
-Route::screen('myinvoice', MyinvoiceScreen::class)
-    ->name('client.myinvoice')
-    ->breadcrumbs(function (Trail $trail){
-        return $trail
-            ->parent('platform.index')
-            ->push('invoice');
-    });
-
-
-Route::screen('/reports', ReportScreen::class)
-    ->name('platform.report');
-
-Route::screen('buy/{id}', LinkScreen::class)
-    ->name('client.buy');
+});
 
 
