@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Orchid\Access\UserAccess;
+use Orchid\Filters\Filterable;
+use Orchid\Metrics\Chartable;
+use Orchid\Screen\AsSource;
+
+class Period extends Model
+{
+    use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
+
+    protected $table = 'periods' ;
+
+    protected $fillable = ['period_time'];
+}
