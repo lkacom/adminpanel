@@ -1,1 +1,0 @@
-<time class="mb-0 text-capitalize">Jun 13, 2024<span class="text-muted d-block">Thu, 09:19</span></time><?php /**PATH D:\wamp64\www\laravel\admin\storage\framework\views/f7d3698931ac59a8aa2452ac1d7512ec.blade.php ENDPATH**/ ?>

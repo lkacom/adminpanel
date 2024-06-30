@@ -14,15 +14,14 @@ class Product extends Model
 {
     use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
 
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table = 'products' ;
 
-    protected $fillable = ['VPN_Name', 'protocol_id', 'server_id', 'term_id'];
+    protected $fillable = [
+        'VPN_Name',
+        'protocol_id',
+        'server_id',
+        'period_id'
+    ];
 
     public function protocol()
     {
@@ -34,11 +33,8 @@ class Product extends Model
         return $this->belongsTo(Server::class,'server_id');
     }
 
-    public function term()
+    public function period()
     {
-        return $this->belongsTo(Term::class,'term_id');
+        return $this->belongsTo(Period::class,'period_id');
     }
-
-
-
 }

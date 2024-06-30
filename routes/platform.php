@@ -128,6 +128,7 @@ Route::screen('myinvoice', MyinvoiceScreen::class)
             ->push('invoice');
     });
 
+
 Route::screen('/reports', ReportScreen::class)
     ->name('platform.report');
 

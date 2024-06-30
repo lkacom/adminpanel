@@ -10,38 +10,53 @@ use Orchid\Screen\Sight;
 
 class ServerResource extends Resource
 {
-    /**
-     * The model the resource corresponds to.
-     *
-     * @var string
-     */
-    public static $model = \App\Models\Server::class;
 
-    /**
-     * Get the fields displayed by the resource.
-     *
-     * @return array
-     */
-    public function fields(): array
+    public static $model = Server::class;
+
+    public static function permission(): ?string
     {
-        return [
-            Input::make('server_name')->horizontal()
-                ->title('Location')
-                ->placeholder('Enter Country Name'),
+        return 'admin.servers';
+    }
 
+    public static function perPage(): int
+    {
+        return 30;
+    }
 
-        ];
+    public static function displayInNavigation(): bool
+    {
+        return false;
+    }
+
+    public static function sort(): string
+    {
+        return 23;
+    }
+
+    public static function description(): ?string
+    {
+        return 'Server list Available';
     }
 
     public static function icon(): string
     {
         return 'server';
     }
-    /**
-     * Get the columns displayed by the resource.
-     *
-     * @return TD[]
-     */
+
+    public function filters(): array
+    {
+        return [];
+    }
+
+    public function fields(): array
+    {
+        return [
+            Input::make('server_name')->horizontal()
+                ->title('Location')
+                ->placeholder('Enter Country Name'),
+        ];
+    }
+
     public function columns(): array
     {
         return [
@@ -59,58 +74,13 @@ class ServerResource extends Resource
         ];
     }
 
-    public static function description(): ?string
-    {
-        return 'Server list Avilable';
-    }
-    public static function label(): string
-    {
-        return 'Servers Managment';
-
-    }
-
-    /**
-     * Get the sights displayed by the resource.
-     *
-     * @return Sight[]
-     */
     public function legend(): array
     {
         return [
             Sight::make('id','Number'),
             Sight::make('server_name','Server'),
-
-
         ];
     }
 
-    /**
-     * Get the filters available for the resource.
-     *
-     * @return array
-     */
-    public function filters(): array
-    {
-        return [];
-    }
-
-    public static function perPage(): int
-    {
-        return 30;
-    }
-
-    public static function displayInNavigation(): bool
-    {
-        return true;
-    }
-
-    public static function sort(): string
-    {
-        return 23;
-    }
-    public static function permission(): ?string
-    {
-        return 'private-Server-resource';
-    }
 }
 

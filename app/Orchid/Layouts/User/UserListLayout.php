@@ -50,8 +50,8 @@ class UserListLayout extends Table
 
             TD::make('email_verified_at','Verify Status')
                 ->render(fn (\Orchid\Platform\Models\User $user) => $user->email_verified_at === null
-                    ? '<i class="text-danger">●</i> Not Verified'
-                    : '<i class="text-success">●</i> Verified'),
+                    ? '<i class="text-danger">.</i> Not Verified'
+                    : '<i class="text-success">.</i> Verified'),
 
             TD::make('created_at', __('Register Date'))
                 ->defaultHidden()
@@ -73,7 +73,7 @@ class UserListLayout extends Table
                     ->list([
 
                         Link::make(__('Edit'))
-                            ->route('platform.systems.users.edit', $user->id)
+                            ->route('admin.users.edit', $user->id)
                             ->icon('bs.pencil'),
 
                         Button::make(__('Delete'))

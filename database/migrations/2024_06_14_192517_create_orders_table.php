@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('trial');
             $table->string('config');
             $table->string('description');
-            $table->timestamps('expiration_date');
+            $table->timestamp('expiration_date')->nullable();
             $table->timestamps();
         });
     }

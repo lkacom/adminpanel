@@ -14,7 +14,7 @@ use Orchid\Screen\AsSource;
 
 class Invoice extends Model
 {
-    use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
+    use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess, Filterable;
 
     protected $table = 'invoices' ;
 
@@ -34,29 +34,14 @@ class Invoice extends Model
         'created_at',
     ];
 
-    use Filterable;
-
-    /**
-     * The attributes for which you can use filters in url.
-     *
-     * @var array
-     */
     protected $allowedFilters = [
         'id'            => Like::class,
         'user_id'       => Like::class,
-        'description'        => Like::class,
-        'amount'       => Like::class,
-        'status'    => Like::class,
+        'description'   => Like::class,
+        'amount'        => Like::class,
+        'status'        => Like::class,
         'created_at'    => WhereDateStartEnd::class,
     ];
 
-//    protected $allowedSorts = [
-//        'id',
-//        'user_id',
-//        'status',
-//        'amount',
-//        'description',
-//        'created_at',
-//    ];
 
 }

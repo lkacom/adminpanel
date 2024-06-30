@@ -1,5 +1,7 @@
 <?php
 
+use App\Orchid\PlatformProvider;
+
 return [
 
     /*
@@ -28,7 +30,7 @@ return [
      |
      */
 
-    'prefix' => env('DASHBOARD_PREFIX', '/admin'),
+    'prefix' => env('DASHBOARD_PREFIX', '/'),
 
     /*
      |--------------------------------------------------------------------------
@@ -100,7 +102,7 @@ return [
 
 
 
-    'index' => 'platform.main',
+    'index' => 'panel.home',
 
 
     /*
@@ -113,7 +115,7 @@ return [
      |
      */
 
-    'profile' => 'platform.profile',
+    'profile' => 'client.profile',
 
     /*
      |--------------------------------------------------------------------------
@@ -128,9 +130,10 @@ return [
      */
 
     'resource' => [
-        'stylesheets' => [],
+        'stylesheets' => [
+            '/assets/css/custom/orchid-custom.css',
+        ],
         'scripts'     => [],
-
     ],
 
     /*
@@ -146,8 +149,6 @@ return [
      */
 
     'vite' => [],
-
-
 
     /*
      |--------------------------------------------------------------------------
@@ -212,7 +213,6 @@ return [
         'orc' => \Orchid\IconPack\Path::getFolder(),
     ],
 
-
     /*
      |--------------------------------------------------------------------------
      | Notifications
@@ -268,6 +268,7 @@ return [
 
     'turbo' => [
         'cache'   => true,
+        'prefetch' => false,
     ],
 
     /*
@@ -323,8 +324,6 @@ return [
      |
      */
 
-    'provider' => \App\Orchid\PlatformProvider::class,
-
-
+    'provider' => PlatformProvider::class,
 
 ];

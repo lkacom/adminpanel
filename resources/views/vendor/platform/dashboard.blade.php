@@ -20,28 +20,20 @@
             @include('platform::partials.search')
 
             <ul class="nav flex-column mb-md-1 mb-auto ps-0">
+                <?php
+                //getMenu();
+                    ?>
                 {!! Dashboard::renderMenu(\Orchid\Platform\Dashboard::MENU_MAIN) !!}
             </ul>
 
-            <div class="h-100 w-100 position-relative to-top cursor d-none d-md-flex mt-md-5"
-                 data-action="click->html-load#goToTop"
-                 title="{{ __('Scroll to top') }}">
-                <div class="bottom-left w-100 mb-2 ps-3 overflow-hidden">
-                    <small data-controller="viewport-entrance-toggle"
-                           class="scroll-to-top"
-                           data-viewport-entrance-toggle-class="show">
-                        <x-orchid-icon path="bs.chevron-up" class="me-2"/>
-                        {{ __('Scroll to top') }}
-                    </small>
-                </div>
+            <div class="h-100">
             </div>
 
             <footer class="position-sticky bottom-0">
                 <div class="bg-dark position-relative overflow-hidden" style="padding-bottom: 10px;">
                     @includeWhen(Auth::check(), 'platform::partials.profile')
                 </div>
-
-
+                
                 {{--
                 <div class="mt-3">
                     @includeFirst([config('platform.template.footer'), 'platform::footer'])

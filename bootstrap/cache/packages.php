@@ -1,13 +1,16 @@
 <?php return array (
-  'giauphan/laravel-qr-code' => 
+  'barryvdh/laravel-ide-helper' => 
   array (
     'providers' => 
     array (
-      0 => 'LaravelQRCode\\Providers\\QRCodeServiceProvider',
+      0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     ),
-    'aliases' => 
+  ),
+  'coconutcraig/laravel-postmark' => 
+  array (
+    'providers' => 
     array (
-      'QRCode' => 'LaravelQRCode\\Facades\\QRCode',
+      0 => 'CraigPaul\\Mail\\PostmarkServiceProvider',
     ),
   ),
   'laravel/fortify' => 
@@ -61,6 +64,18 @@
     'aliases' => 
     array (
       'Livewire' => 'Livewire\\Livewire',
+    ),
+  ),
+  'milon/barcode' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Milon\\Barcode\\BarcodeServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'DNS1D' => 'Milon\\Barcode\\Facades\\DNS1DFacade',
+      'DNS2D' => 'Milon\\Barcode\\Facades\\DNS2DFacade',
     ),
   ),
   'nesbot/carbon' => 

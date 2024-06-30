@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    'home' => env('DASHBOARD_PREFIX', '/'),
 
     /*
     |--------------------------------------------------------------------------
@@ -146,7 +146,7 @@ return [
     'features' => [
         Features::registration(),
         Features::resetPasswords(),
-        // Features::emailVerification(),
+        Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([
@@ -155,5 +155,15 @@ return [
             // 'window' => 0,
         ]),
     ],
+
+    /* Add by Sayed - START */
+
+    // Disables the default email verification mechanism by userID and hash URL: email/verify/{id}/{hash}
+    'paths' =>[
+        'verification' => [
+            'verify' => ''
+        ]
+    ]
+    /* Add by Sayed - END */
 
 ];
