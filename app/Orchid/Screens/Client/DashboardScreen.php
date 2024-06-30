@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Orchid\Screens\Client;
+
+use App\Models\Order;
+use App\Models\Invoice;
+use App\Models\Transaction;
+use App\Orchid\Screens\QRCode;
+use DNS2D;
+use Illuminate\Support\Facades\Auth;
+use Orchid\Screen\Fields\Label;
+use Orchid\Screen\Screen;
+use Orchid\Screen\TD;
+use Orchid\Support\Facades\Layout;
+
+class DashboardScreen extends Screen
+{
+
+    public function permission(): ?iterable
+    {
+        return ['client.dashboard'];
+    }
+
+    public function query(): iterable
+    {
+        $userEmail = Auth::id();
+
+        $clientServices = Order::query()->where('user_id' , $userEmail)->latest()->limit(1)->get();
+        $account = Transaction::query()->where('invoice_id' , $userEmail)->get();
+        $paid = Invoice::query()->where('user_id' , $userEmail)->get();
+
+        if (!$clientServices)
+            echo "No record found.";
+
+        return [
+
+            'table'   => ($clientServices),
+
+            'metrics' => [
+                'paid'      => ['value' => $paid->Where('status' , '1')->count()],
+                'active'    => ['value' => $account->count()],
+                'expire'    => ['value' => $account->count()],
+            ],
+
+        ];
+    }
+
+    public function name(): ?string
+    {
+        return __('Dashboard');
+    }
+
+    public function layout(): iterable
+    {
+
+        return [
+
+            Layout::metrics([
+                __('Paid Account')    => 'metrics.paid',
+                __('Active Accounts') => 'metrics.active',
+                __('Expired Account') => 'metrics.expire',
+            ]),
+
+            Layout::rows([
+                Label::make('title')
+                    ->title(__('Last Config')),
+            ]),
+            Layout::columns([
+                Layout::table('table', [
+                    TD::make('id',__('ID')),
+                    TD::make('name',__('Type')),
+                    TD::make('expiration_date',__('Expire Date')),
+                    TD::make('config',__('Config'))
+                        ->popover(__('Click on QR-Code for Copy Config'))
+                        ->render(function ($invoice) {
+                            $QR = DNS2D::getBarcodePNG(url('qr/'.$invoice->uuid), 'QRCODE',4.55,4.55);
+                            return "<img src='data:image/png;base64,$QR'/>";
+                        }),
+
+                    TD::make('config',__('Copy Config'))
+                    ->render(function ($invoice) {
+                        $copy = $invoice->config;
+                        return '<span  " onclick="copyToClipboard(\'' . $copy . '\')" style="cursor: pointer;">Copy to ClipBoard</span>';
+                    }),
+
+                    TD::make('status',__('Status'))
+                        ->render(fn (Order $order) => $order->expiration_date === null
+                            ? '<i class="text-danger">Expired</i>'
+                            : '<i class="text-success">Active</i>'),
+                ]),
+            ]),
+
+            Layout::rows([
+                Label::make('title')
+                    ->title(__('Note: For Copy config to clipboard please click on QRcode ')),
+            ]),
+        ];
+    }
+}
