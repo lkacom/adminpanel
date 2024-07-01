@@ -1,8 +1,6 @@
 <p align="center"><a href="https://beshkan.org" target="_blank"><img src="/public/assets/media/logos/beshkan-logolockup-cmyk-red.png" width="400" alt="Beshkan panel Logo"></a></p>
 
-<p align="center">
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<hr>
 
 ## About Beshkan Panel
 
