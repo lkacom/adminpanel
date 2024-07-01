@@ -4,9 +4,7 @@ namespace App\Orchid\Screens\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Orchid\Access\Impersonation;
 use Orchid\Platform\Models\User;
-use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
@@ -29,22 +27,6 @@ class ProfileScreen extends Screen
     public function description(): ?string
     {
         return 'Update your account details such as name, email address and password';
-    }
-
-    public function commandBar(): iterable
-    {
-        return [
-            Button::make('Back to my account')
-                ->novalidate()
-                ->canSee(Impersonation::isSwitch())
-                ->icon('bs.people')
-                ->route('platform.switch.logout'),
-
-            Button::make('Sign out')
-                ->novalidate()
-                ->icon('bs.box-arrow-left')
-                ->route('platform.logout'),
-        ];
     }
 
     public function layout(): iterable
