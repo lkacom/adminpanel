@@ -29,7 +29,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'permissions' => [
                 "platform.index"    => 1,
+                "admin.roles.menu"  => 1,
                 "admin.roles"       => 1,
+                "admin.users.menu"  => 1,
                 "admin.users"       => 1,
                 ],
             'created_at' => now(),
