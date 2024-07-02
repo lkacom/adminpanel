@@ -8,6 +8,7 @@ use App\Orchid\Resources\ServerResource;
 use Auth;
 use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Platform\ItemPermission;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Menu;
 
 class PlatformProvider extends OrchidServiceProvider
@@ -67,7 +68,13 @@ class PlatformProvider extends OrchidServiceProvider
                         ->icon('handbag')
                         ->permission('admin.products.menu')
                         ->route('platform.resource.list', [ProductResource::uriKey()]),
-                ]):Menu::make(),
+
+                    Menu::make(__('Logout'))
+                        ->icon('bs.box-arrow-left')
+                        ->permission('admin.logout.menu')
+                        ->route('client.profile'),
+                ]):
+                Menu::make(),
 
             // Client Menu
             Auth::user()->hasAnyAccess('client.*.menu')?
@@ -100,6 +107,17 @@ class PlatformProvider extends OrchidServiceProvider
                             ->icon('user')
                             ->permission('client.profile.menu')
                             ->route('client.profile'),
+
+                        Menu::make()
+                            ->icon('bs.box-arrow-left')
+                            ->permission('client.logout.menu')
+                            ->addBeforeRender(function (){
+                                return Button::make(__('Logout'))
+                                    ->icon('bs.box-arrow-left')
+                                    ->route('platform.logout');
+                        }),
+
+
                     ])
                 :Menu::make()
         ];
@@ -112,17 +130,18 @@ class PlatformProvider extends OrchidServiceProvider
             // Client Permissions - Begin
             ItemPermission::group(__('Client Menu Access'))
                 ->addPermission('client.dashboard.menu' , 'Dashboard')
-                ->addPermission('client.orders.menu'    , 'Orders')
                 ->addPermission('client.shop.menu'      , 'Shop')
+                ->addPermission('client.orders.menu'    , 'Orders')
                 ->addPermission('client.invoices.menu'  , 'Invoices')
-                ->addPermission('client.profile.menu'   , 'Profile'),
+                ->addPermission('client.profile.menu'   , 'Profile')
+                ->addPermission('client.logout.menu'    , 'Logout'),
 
             ItemPermission::group(__('Client Resource Access'))
                 ->addPermission('client.dashboard'      , 'dashboard.index')
-                ->addPermission('client.orders.index'   , 'orders.index')
-                ->addPermission('client.orders.index'   , 'orders.renew')
                 ->addPermission('client.shop.index'     , 'shop.index')
+                ->addPermission('client.orders.index'   , 'orders.index')
                 ->addPermission('client.order.new'      , 'order.new')
+                ->addPermission('client.orders.renew'   , 'orders.renew')
                 ->addPermission('client.invoices.index' , 'invoices.index')
                 ->addPermission('client.profile.index'  , 'profile.index')
                 ->addPermission('client.profile.update' , 'profile.update'),
@@ -130,15 +149,16 @@ class PlatformProvider extends OrchidServiceProvider
 
             // Admin Permissions - Begin
             ItemPermission::group(__('Admin Menu Access'))
-                ->addPermission('admin.dashboard.menu'       , __('Dashboard'))
-                ->addPermission('admin.invoices.menu'        , __('Invoices'))
-                ->addPermission('admin.transactions.menu'    , __('Transactions'))
-                ->addPermission('admin.roles.menu'           , __('Roles'))
-                ->addPermission('admin.users.menu'           , __('Users'))
-                ->addPermission('admin.products.menu'        , __('Products'))
-                ->addPermission('admin.servers.menu'         , __('Servers'))
-                ->addPermission('admin.periods.menu'         , __('Periods'))
-                ->addPermission('admin.protocols.menu'       , __('Protocols')),
+                ->addPermission('admin.dashboard.menu'      , __('Dashboard'))
+                ->addPermission('admin.invoices.menu'       , __('Invoices'))
+                ->addPermission('admin.transactions.menu'   , __('Transactions'))
+                ->addPermission('admin.roles.menu'          , __('Roles'))
+                ->addPermission('admin.users.menu'          , __('Users'))
+                ->addPermission('admin.products.menu'       , __('Products'))
+                ->addPermission('admin.servers.menu'        , __('Servers'))
+                ->addPermission('admin.periods.menu'        , __('Periods'))
+                ->addPermission('admin.protocols.menu'      , __('Protocols'))
+                ->addPermission('admin.logout.menu'         , __('Logout')),
 
             ItemPermission::group(__('Admin Resource Access'))
                 ->addPermission('admin.dashboard'       , __('Dashboard'))

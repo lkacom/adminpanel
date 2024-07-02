@@ -5,7 +5,6 @@ namespace App\Orchid\Screens\Client;
 use App\Models\Order;
 use App\Models\Invoice;
 use App\Models\Transaction;
-use App\Orchid\Screens\QRCode;
 use DNS2D;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Fields\Label;
@@ -15,12 +14,22 @@ use Orchid\Support\Facades\Layout;
 
 class DashboardScreen extends Screen
 {
-
+    public function __construct()
+    {
+        addJavascriptFile('assets/plugins/jQuery/3.7.1/jquery-3.7.1.min.js');
+        addJavascriptFile('assets/plugins/clipboard.js/2.0.11/dist/clipboard.min.js');
+        addJavascriptFile('assets/js/scripts.bundle.js');
+        addJavascriptFile('assets/js/copy.js');
+    }
     public function permission(): ?iterable
     {
         return ['client.dashboard'];
     }
 
+    public function name(): ?string
+    {
+        return __('Dashboard');
+    }
     public function query(): iterable
     {
         $userEmail = Auth::id();
@@ -45,16 +54,9 @@ class DashboardScreen extends Screen
         ];
     }
 
-    public function name(): ?string
-    {
-        return __('Dashboard');
-    }
-
     public function layout(): iterable
     {
-
         return [
-
             Layout::metrics([
                 __('Paid Account')    => 'metrics.paid',
                 __('Active Accounts') => 'metrics.active',
@@ -65,6 +67,7 @@ class DashboardScreen extends Screen
                 Label::make('title')
                     ->title(__('Last Config')),
             ]),
+
             Layout::columns([
                 Layout::table('table', [
                     TD::make('id',__('ID')),
@@ -73,27 +76,27 @@ class DashboardScreen extends Screen
                     TD::make('config',__('Config'))
                         ->popover(__('Click on QR-Code for Copy Config'))
                         ->render(function ($invoice) {
-                            $QR = DNS2D::getBarcodePNG(url('qr/'.$invoice->uuid), 'QRCODE',4.55,4.55);
-                            return "<img src='data:image/png;base64,$QR'/>";
+                            $configURI = url('qr/'.$invoice->uuid);
+                            $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',4.55,4.55);
+                            return "
+                                <img src='data:image/png;base64,$QR' alt='QRCode'/>
+                                <span data-action='copy' class='btn btn-color-gray-500 btn-active-color-primary btn-sm btn-outline-light p-0' data-content='$configURI'>
+                                    ".__('my_orders.copy_fragment_code')." <i class='ki-solid ki-copy fs-2'></i>
+                        </span>";
                         }),
-
-                    TD::make('config',__('Copy Config'))
-                    ->render(function ($invoice) {
-                        $copy = $invoice->config;
-                        return '<span  " onclick="copyToClipboard(\'' . $copy . '\')" style="cursor: pointer;">Copy to ClipBoard</span>';
-                    }),
 
                     TD::make('status',__('Status'))
                         ->render(fn (Order $order) => $order->expiration_date === null
                             ? '<i class="text-danger">Expired</i>'
-                            : '<i class="text-success">Active</i>'),
+                            : '<i class="text-success">Active2</i>'),
                 ]),
             ]),
 
             Layout::rows([
                 Label::make('title')
-                    ->title(__('Note: For Copy config to clipboard please click on QRcode ')),
+                    ->title(__('Note: For Copy config to clipboard please click on QRCode ')),
             ]),
+
         ];
     }
 }

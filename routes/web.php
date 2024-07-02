@@ -2,8 +2,6 @@
 use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-
-
 $verificationLimiter = config('fortify.limiters.verification', '6,1');
 
 Route::get('/', function () {

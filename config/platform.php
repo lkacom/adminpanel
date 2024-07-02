@@ -133,7 +133,12 @@ return [
         'stylesheets' => [
             '/assets/css/custom/orchid-custom.css',
         ],
-        'scripts'     => [],
+        'scripts'     => [
+            //'/assets/plugins/jQuery/3.7.1/jquery-3.7.1.min.js',
+            //'/assets/plugins/plugins.bundle.js',
+            //'/assets/js/scripts.bundle.js',
+            //'/assets/js/copy.js',
+        ],
     ],
 
     /*

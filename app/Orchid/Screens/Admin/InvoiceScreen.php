@@ -4,38 +4,25 @@ namespace App\Orchid\Screens\Admin;
 
 use App\Models\Invoice;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
+use View;
 
 class InvoiceScreen extends Screen
 {
+
+    public function __construct()
+    {
+        
+    }
 
     public function permission(): ?iterable
     {
         return ['admin.invoices'];
     }
 
-
-    /**
-     * Fetch data to be displayed on the screen.
-     *
-     * @return array
-     */
-    public function query(): iterable
-    {
-        $data =Invoice::filters()->defaultSort('id')->paginate(15);
-
-        return [
-            'table'   => ($data),
-        ];
-    }
-
-    /**
-     * The name of the screen displayed in the header.
-     *
-     * @return string|null
-     */
     public function name(): ?string
     {
         return __('Invoice Report');
@@ -46,21 +33,20 @@ class InvoiceScreen extends Screen
         return __('History of Invoice Clients');
     }
 
-    /**
-     * The screen's action buttons.
-     *
-     * @return \Orchid\Screen\Action[]
-     */
     public function commandBar(): iterable
     {
         return [];
     }
 
-    /**
-     * The screen's layout elements.
-     *
-     * @return \Orchid\Screen\Layout[]|string[]
-     */
+    public function query(): iterable
+    {
+        $data =Invoice::filters()->defaultSort('id')->paginate(15);
+
+        return [
+            'table'   => ($data),
+        ];
+    }
+
     public function layout(): iterable
     {
         return [
@@ -87,16 +73,12 @@ class InvoiceScreen extends Screen
                     TD::make('created_at',__('Date'))
                         ->sort()
                         ->filter(Input::make()),
-
                 ]),
-
-
-
-
+                Layout::rows([
+                    Label::make('title')
+                        ->title(__('Note: For Copy config to clipboard please click on QRCode ')),
+                ]),
             ]),
-
-
-
 
         ];
     }

@@ -67,6 +67,9 @@
 
 @stack('scripts')
 
+@foreach(getCustomJs() as $path)
+    {!! sprintf('<script src="%s"></script>', asset($path)) !!}
+@endforeach
 
 </body>
 </html>
