@@ -16,6 +16,7 @@ class PlatformProvider extends OrchidServiceProvider
     public function menu(): array
     {
         return [
+            
             // Admin menu
             Auth::user()->hasAnyAccess('admin.*.menu')?
             Menu::make()
