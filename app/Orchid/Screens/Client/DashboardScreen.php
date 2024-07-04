@@ -79,16 +79,16 @@ class DashboardScreen extends Screen
                             $configURI = url('qr/'.$invoice->uuid);
                             $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',4.55,4.55);
                             return "
-                                <img src='data:image/png;base64,$QR' alt='QRCode'/>
-                                <span data-action='copy' class='btn btn-color-gray-500 btn-active-color-primary btn-sm btn-outline-light p-0' data-content='$configURI'>
-                                    ".__('my_orders.copy_fragment_code')." <i class='ki-solid ki-copy fs-2'></i>
-                        </span>";
+                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI'/>
+                                <span class='copy-result'>
+                                    <i class='ki-solid ki-copy fs-2'></i>
+                                </span>";
                         }),
 
                     TD::make('status',__('Status'))
                         ->render(fn (Order $order) => $order->expiration_date === null
                             ? '<i class="text-danger">Expired</i>'
-                            : '<i class="text-success">Active2</i>'),
+                            : '<i class="text-success circle">Active</i>'),
                 ]),
             ]),
 

@@ -27,7 +27,7 @@
     <div class="text-center user-select-none my-4 d-none d-lg-block">
         <p class="small mb-0">
             {{ __('Powered by Beshkan!') }} 2007-{{date('Y')}}<br>
-            {{ __('Version: 3.1') }}
-        </p>
-    </div>
+            {{__('Version: ') }}{{ env('APP_VERSION')}}
+</p>
+</div>
 @endguest

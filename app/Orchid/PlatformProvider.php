@@ -10,13 +10,15 @@ use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Platform\ItemPermission;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Menu;
+use Orchid\Screen\Builder;
+use Orchid\Screen\Fields\Input;
 
 class PlatformProvider extends OrchidServiceProvider
 {
     public function menu(): array
     {
         return [
-            
+
             // Admin menu
             Auth::user()->hasAnyAccess('admin.*.menu')?
             Menu::make()
@@ -69,10 +71,15 @@ class PlatformProvider extends OrchidServiceProvider
                         ->permission('admin.products.menu')
                         ->route('platform.resource.list', [ProductResource::uriKey()]),
 
-                    Menu::make(__('Logout'))
+                    Menu::make('')
                         ->icon('bs.box-arrow-left')
-                        ->permission('admin.logout.menu')
-                        ->route('client.profile'),
+                        ->permission('client.logout.menu')
+                        ->addBeforeRender(function (){
+                            echo Button::make(__('Logout'))
+                                ->class('btn btn-default btn-block p-3 no-border no-bg text-white logout-from-menu')
+                                ->icon('bs.box-arrow-left')
+                                ->route('platform.logout');
+                        }),
                 ]):
                 Menu::make(),
 
@@ -108,11 +115,12 @@ class PlatformProvider extends OrchidServiceProvider
                             ->permission('client.profile.menu')
                             ->route('client.profile'),
 
-                        Menu::make()
+                        Menu::make('')
                             ->icon('bs.box-arrow-left')
                             ->permission('client.logout.menu')
                             ->addBeforeRender(function (){
-                                return Button::make(__('Logout'))
+                                echo Button::make(__('Logout'))
+                                    ->class('btn btn-default btn-block p-3 no-border no-bg text-white logout-from-menu')
                                     ->icon('bs.box-arrow-left')
                                     ->route('platform.logout');
                         }),
