@@ -5,6 +5,7 @@ namespace App\Orchid\Screens\Client;
 use App\Models\Order;
 use App\Models\Invoice;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use DNS2D;
 use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Fields\Label;
@@ -86,8 +87,8 @@ class DashboardScreen extends Screen
                         }),
 
                     TD::make('status',__('Status'))
-                        ->render(fn (Order $order) => $order->expiration_date === null
-                            ? '<i class="text-danger">Expired</i>'
+                        ->render(fn (Order $order) => Carbon::now()->lte($order->expiration_date)
+                            ? '<i class="text-danger circle">Expired</i>'
                             : '<i class="text-success circle">Active</i>'),
                 ]),
             ]),
