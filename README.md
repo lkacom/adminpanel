@@ -7,14 +7,14 @@
 Beshkan panel implemented on Laravel allows you to set up an VPN accounting sales panel with a few clicks.
 
 ## Installation guide
-1. `compser update`<br>
+1. `composer update`<br>
 2. `php artisan migrate`<br>
 3. `php artisan db:seed`
 4. `npm run build`
 
 ## Usage
-Default Username is : `admin@admin.com`<br>
-Default Password is : `admin`
+Default Username : `admin@admin.com`<br>
+Default Password : `admin`
 
 After login to panel You must add permissions using the roles section. 
 
