@@ -20,6 +20,6 @@
 
 
     <p class="my-0 {{ auth()->check() ? 'd-none d-xl-block' : '' }}">
-        {{ config('app.name') }} <small>v3.1</small>
+        {{ config('app.name') }} <small>v{{env('APP_VERSION')}}</small>
     </p>
 </div>
