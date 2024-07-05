@@ -69,29 +69,87 @@ class DashboardScreen extends Screen
                     ->title(__('Last Config')),
             ]),
 
-            Layout::columns([
-                Layout::table('table', [
-                    TD::make('id',__('ID')),
-                    TD::make('name',__('Type')),
-                    TD::make('expiration_date',__('Expire Date')),
-                    TD::make('config',__('Config'))
-                        ->popover(__('Click on QR-Code for Copy Config'))
-                        ->render(function ($invoice) {
-                            $configURI = url('qr/'.$invoice->uuid);
-                            $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',4.55,4.55);
-                            return "
-                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI'/>
+                Layout::tabs([
+                    __('Direct Config') => [
+                        Layout::table('table', [
+                            TD::make('id',__('ID')),
+                            TD::make('name',__('Type')),
+                            TD::make('expiration_date',__('Expire Date')),
+                            TD::make('config',__('Config'))
+                                ->popover(__('Click on QR-Code for Copy Config'))
+                                ->render(function ($invoice) {
+                                    $configURI = $invoice->config;
+                                    $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',2,2);
+                                    return "
+                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI' style='cursor: pointer;/>
                                 <span class='copy-result'>
                                     <i class='ki-solid ki-copy fs-2'></i>
                                 </span>";
-                        }),
+                                }),
 
-                    TD::make('status',__('Status'))
-                        ->render(fn (Order $order) => Carbon::now()->lte($order->expiration_date)
-                            ? '<i class="text-danger circle">Expired</i>'
-                            : '<i class="text-success circle">Active</i>'),
+                            TD::make('status',__('Status'))
+                                ->render(fn (Order $order) => Carbon::now()->lte($order->expiration_date)
+                                    ? '<i class="text-danger circle">Expired</i>'
+                                    : '<i class="text-success circle">Active</i>'),
+                        ]),
+
+
+                    ],
+                    __('Fragment') => [
+                        Layout::table('table', [
+                            TD::make('id',__('ID')),
+                            TD::make('name',__('Type')),
+                            TD::make('expiration_date',__('Expire Date')),
+                            TD::make('config',__('Config'))
+                                ->popover(__('Click on QR-Code for Copy Config'))
+                                ->render(function ($invoice) {
+                                    $configURI = url('json/'.$invoice->uuid);
+                                    $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',4,4);
+                                    return "
+                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI' style='cursor: pointer; />
+                                <span class='copy-result'>
+                                    <i class='ki-solid ki-copy fs-2'></i>
+                                </span>";
+                                }),
+
+                            TD::make('status',__('Status'))
+                                ->render(fn (Order $order) => Carbon::now()->lte($order->expiration_date)
+                                    ? '<i class="text-danger circle">Expired</i>'
+                                    : '<i class="text-success circle">Active</i>'),
+                        ]),
+
+
+                    ],
+
+                    __('Subscription') => [
+                        Layout::table('table', [
+                            TD::make('id',__('ID')),
+                            TD::make('name',__('Type')),
+                            TD::make('expiration_date',__('Expire Date')),
+                            TD::make('config',__('Config'))
+                                ->popover(__('Click on QR-Code for Copy Config'))
+                                ->render(function ($invoice) {
+                                    $configURI = url('subs/'.$invoice->uuid);
+                                    $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',4,4);
+                                    return "
+                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI' style='cursor: pointer;/>
+                                <span class='copy-result'>
+                                    <i class='ki-solid ki-copy fs-2'></i>
+                                </span>";
+                                }),
+
+                            TD::make('status',__('Status'))
+                                ->render(fn (Order $order) => Carbon::now()->lte($order->expiration_date)
+                                    ? '<i class="text-danger circle">Expired</i>'
+                                    : '<i class="text-success circle">Active</i>'),
+                        ]),
+
+
+                    ],
+
                 ]),
-            ]),
+
+
 
             Layout::rows([
                 Label::make('title')
