@@ -15,7 +15,7 @@ Beshkan panel implemented on Laravel allows you to set up an VPN accounting sale
 
 ## Usage
 
-Defult Admin Login:
+default Admin Login:
 
 Username : `admin@admin.com`<br>
 Password : `admin`
