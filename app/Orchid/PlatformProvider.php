@@ -24,7 +24,6 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make()
                 ->active('*')
                 ->slug('admin-menu')
-                ->title('Admin Menu')
                 ->list([
                     Menu::make('Dashboard')
                         ->icon('bs.book')
