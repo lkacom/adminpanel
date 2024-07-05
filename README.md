@@ -20,7 +20,7 @@ default Admin Login:
 Username : `admin@admin.com`<br>
 Password : `admin`
 
-Open your .env file and add your api key, env, callback url like so:
+Open your .env file and add your branding name and prefix like so:
 
 ```plaintext
 DASHBOARD_PREFIX=panel
