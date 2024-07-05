@@ -24,7 +24,6 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make()
                 ->active('*')
                 ->slug('admin-menu')
-                ->title('Admin Menu')
                 ->list([
                     Menu::make('Dashboard')
                         ->icon('bs.book')
@@ -73,7 +72,7 @@ class PlatformProvider extends OrchidServiceProvider
 
                     Menu::make('')
                         ->icon('bs.box-arrow-left')
-                        ->permission('client.logout.menu')
+                        ->permission('admin.logout.menu')
                         ->addBeforeRender(function (){
                             echo Button::make(__('Logout'))
                                 ->class('btn btn-default btn-block p-3 no-border no-bg text-white logout-from-menu')
