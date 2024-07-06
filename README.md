@@ -15,7 +15,7 @@ Beshkan panel implemented on Laravel allows you to set up an VPN accounting sale
 JetStream is designed using [Tailwind CSS](https://tailwindcss.com) and offers your choice of [Livewire](https://jetstream.laravel.com/stacks/livewire.html) or [Inertia](https://jetstream.laravel.com/stacks/inertia.html) scaffolding.
 
 ## Installation guide
-1. `composer update`<br>
+1. `composer install`<br>
 2. `php artisan migrate`<br>
 3. `npm run build`
 4.  `php artisan db:seed`
