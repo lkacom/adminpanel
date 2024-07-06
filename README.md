@@ -15,11 +15,15 @@ Beshkan panel implemented on Laravel allows you to set up an VPN accounting sale
 JetStream is designed using [Tailwind CSS](https://tailwindcss.com) and offers your choice of [Livewire](https://jetstream.laravel.com/stacks/livewire.html) or [Inertia](https://jetstream.laravel.com/stacks/inertia.html) scaffolding.
 
 ## Installation guide
+Before starting the installation process, first create your `.env` file.<br>
+Make a copy of the `.env.example` file and rename it to `.env`. Then change the database specifications according to your needs.
+
+In continue, do the following steps in order:
 1. `composer install`<br>
 2. `php artisan migrate`<br>
 3. `npm run build`
 4.  `php artisan db:seed`
-5. Define panel prefix in your `.env` file.<br>The prefix parameter allows you to change the default panel prefix to any other name, such as `panel`, `admin`, `administrator`, `client` or `/` (root of  site).<br>
+5. [Optional] Define panel prefix in your `.env` file.<br>The prefix parameter allows you to change the default panel prefix to any other name, such as `panel`, `admin`, `administrator`, `client` or `/` (root of  site).<br>
 This is useful if you want to use a different prefix for your  panel or if the default prefix is already in use by another part of your application. We're suggesting `DASHBOARD_PREFIX=panel`<br>
 For example, if you set the prefix to `panel`, the URL for the panel dashboard page would be https://example.com/panel/dashboard instead of https://example.com/dashboard.
 
