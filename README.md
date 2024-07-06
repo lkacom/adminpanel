@@ -1,6 +1,6 @@
-<p style="text-align:center; width: 400px; margin: 0 auto">
+<p align="center">
     <a href="https://beshkan.org" target="_blank">
-        <img src="/public/assets/media/logos/beshkan-logo-lockup-cmyk-red.png"  alt="Beshkan panel Logo">
+        <img src="/public/assets/media/logos/beshkan-logo-lockup-cmyk-red.png" width="400" alt="Beshkan panel Logo">
     </a>
 </p>
 <hr>
