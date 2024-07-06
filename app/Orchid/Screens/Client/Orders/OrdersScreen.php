@@ -80,8 +80,8 @@ class OrdersScreen extends Screen
 
                     TD::make('status',__('Status'))
                         ->render(fn (Order $user) => Carbon::now()->lte($user->expiration_date)
-                            ? '<i class="text-success">Active</i>'
-                            : '<i class="text-danger">Expired</i>'
+                            ? '<i class="text-success circle">Active</i>'
+                            : '<i class="text-danger circle">Expired</i>'
                         ),
                 ]),
 
