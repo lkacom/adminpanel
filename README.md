@@ -3,7 +3,7 @@
         <img src="/public/assets/media/logos/beshkan-logo-lockup-cmyk-red.png" width="400" alt="Beshkan panel Logo">
     </a>
 </p>
-<hr>
+
 
 ## About Beshkan Panel
 
