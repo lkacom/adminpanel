@@ -4,6 +4,7 @@ namespace App\Orchid\Resources;
 
 use App\Models\Period;
 use Orchid\Crud\Resource;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\TD;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Sight;
@@ -50,18 +51,31 @@ class PeriodResource extends Resource {
     public function fields(): array
     {
         return [
-            Input::make('period_time')->horizontal()
-                ->title('Period Time')
+            Input::make('duration')
+                ->horizontal()
+                ->title('Duration Time')
                 ->placeholder('Enter Period Time (only Month)')
                 ->required(),
+
+            Select::make('type')
+                ->horizontal()
+                ->title('Type')
+                ->options([
+                    'minute'    => 'Minutes',
+                    'hour'      => 'Hours',
+                    'day'       => 'Days',
+                    'month'     => 'Months',
+                    'year'      => 'Years'
+                ]),
             ];
+
     }
 
     public function columns(): array
     {
         return [
             TD::make('id'),
-            TD::make('period_time', 'Period credit'),
+            TD::make('duration', 'Duration'),
             TD::make('created_at', 'Date of creation')
                 ->render(function ($model) {
                     return $model->created_at->toDateTimeString();

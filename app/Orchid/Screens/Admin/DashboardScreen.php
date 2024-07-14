@@ -103,8 +103,8 @@ class DashboardScreen extends Screen
                         }),
                     TD::make('email_verified_at','Verify Status')
                     ->render(fn (\Orchid\Platform\Models\User $user) => $user->email_verified_at === null
-                        ? '<i class="text-danger">Not Verified</i>'
-                        : '<i class="text-success">Verified</i>'),
+                        ? '<i class="text-danger circle">Not Verified</i>'
+                        : '<i class="text-success circle">Verified</i>'),
                     TD::make('created_at','Register Date')->sort(),
                 ]),
             ]),

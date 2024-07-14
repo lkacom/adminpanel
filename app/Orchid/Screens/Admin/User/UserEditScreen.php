@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Orchid\Access\Impersonation;
 use Orchid\Platform\Models\User;
-use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
@@ -124,9 +123,6 @@ class UserEditScreen extends Screen
         ];
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function save(User $user, Request $request)
     {
         $request->validate([
@@ -157,11 +153,6 @@ class UserEditScreen extends Screen
         return redirect()->route('admin.users');
     }
 
-    /**
-     * @throws \Exception
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function remove(User $user)
     {
         $user->delete();
@@ -170,10 +161,7 @@ class UserEditScreen extends Screen
 
         return redirect()->route('admin.users');
     }
-
-    /**
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    
     public function loginAs(User $user)
     {
         Impersonation::loginAs($user);

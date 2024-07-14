@@ -1,4 +1,4 @@
-<fieldset class="mb-3">
+<fieldset class="mb-3 {{$class}}">
 
     @empty(!$title)
         <div class="col p-0 px-3">

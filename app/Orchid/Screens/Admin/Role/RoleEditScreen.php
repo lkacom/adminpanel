@@ -16,9 +16,6 @@ use Orchid\Support\Facades\Toast;
 
 class RoleEditScreen extends Screen
 {
-    /**
-     * @var Role
-     */
     public $role;
 
     public function permission(): ?iterable

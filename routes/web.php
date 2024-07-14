@@ -8,7 +8,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-
 Route::resource('email/verify/do', VerifyEmailController::class)
     ->middleware([config('fortify.auth_middleware', 'auth').':'.config('fortify.guard'), 'throttle:'.$verificationLimiter])
     ->name('index','verification.verify');

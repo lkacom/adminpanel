@@ -25,6 +25,8 @@ class User extends OrchidUser implements MustVerifyEmail
     use TwoFactorAuthenticatable;
     use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
 
+    public $rrr;
+
     protected $table = 'users' ;
 
     protected $fillable = [
@@ -63,6 +65,30 @@ class User extends OrchidUser implements MustVerifyEmail
         if (!empty($value)) {
             $this->attributes['password'] = Hash::make($value);
         }
+    }
+
+    public function hasAccess_SAYED(string $permit, bool $cache = true): bool
+    {
+
+        if (! $cache || $this->cachePermissions === null) {
+            $this->cachePermissions = $this->roles()
+                ->pluck('permissions')
+                ->filter(fn ($permission) => is_array($permission));
+        }
+
+        if(is_array($this->permissions)){
+            $this->rrr = $this->cachePermissions->map(function ($rolePermissions) {
+                foreach($this->permissions as $permissionKey => $userPermission) {
+                    $rolePermissions[$permissionKey] = $userPermission;
+                }
+                return $rolePermissions;
+            });
+        }
+        else $this->rrr = $this->cachePermissions;
+
+        return $this->rrr->filter(function (array $permissions) use ($permit) {
+            return $this->filterWildcardAccess($permissions, $permit);
+        })->isNotEmpty();
     }
 
     public function createActivationCode()

@@ -18,18 +18,14 @@ class OrdersScreen extends Screen
         return ['client.orders.index'];
     }
 
-    /**
-     * Fetch data to be displayed on the screen.
-     *
-     * @return array
-     */
     public function query(): iterable
     {
         $userEmail = Auth::id();
-        $myservice = Order::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
+        dd($userEmail);
+        $orders = Order::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
 
         return [
-            'table'   => ($myservice),
+            'table'   => ($orders),
         ];
     }
 
@@ -84,7 +80,6 @@ class OrdersScreen extends Screen
                             : '<i class="text-danger circle">Expired</i>'
                         ),
                 ]),
-
             ]),
         ];
     }

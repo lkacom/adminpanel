@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('VPN_Name');
+            $table->string('name');
             $table->foreignId('period_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('protocol_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('server_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('price')->default(0);
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@
 .bg-dark .nav > li:focus > a,
 .bg-dark .nav > li:hover > a,
 .logout-from-menu,
+.modal .logout-from-menu,
 .logout-from-menu:hover,
 .logout-from-menu:focus,
 .logout-from-menu:active,
@@ -19,28 +20,51 @@
     border-radius: 0 !important;
     justify-content: left;
     color: #fff !important;
+    box-shadow: none !important;
+    padding: 0.625rem 1rem !important;
 }
 
 .logout-container button{
     cursor: pointer;
     background-color: var(--custom-red) !important;
 }
+
 .logout-container button:hover{
     background-color: rgba(220,38,38 , 1) !important;
     color: #fff !important;
 }
+
 .no-bg{
     background-color: unset !important;
 }
+
 .text-white{
     color: #fff !important;
 }
-
-/* Fixing collapse menus on the profile page taken from the JetStream default page - Begin */
+/* JetStream Fixes - Begin */
+/*Fixing collapse menus on the profile page taken from the JetStream default page */
 .show{
     visibility: visible !important;
 }
-/* Fixing collapse menus on the profile page taken from the JetStream default page - End */
+/* remove background from profile page taken from the JetStream default page */
+.bg-gray-100{
+    --tw-bg-opacity: 0 !important;
+}
+.min-h-screen main .max-w-7xl .mt-5{
+    margin-top: 0 !important;
+}
+.min-h-screen main .max-w-7xl.lg\:px-8{
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+.min-h-screen main .max-w-7xl.py-10{
+    padding-top: 0 !important;
+}
+.min-h-screen header.shadow{
+    display: none !important;
+}
+/* JetStream Fixes - End */
+
 
 .text-success.circle:before{
     margin-right: 5px;
@@ -60,4 +84,19 @@
     background-color: #dc3545 !important;
     border-radius: 50%;
     display: inline-block;
+}
+
+.no-py{
+    padding-top: unset !important;
+    padding-bottom: unset !important;
+}
+
+.new-order-modal dt.text-muted{
+    font-size: .875rem !important;
+    color: #444054 !important;
+    font-weight: 500 !important;
+}
+
+.hidden{
+    display: none !important;
 }
