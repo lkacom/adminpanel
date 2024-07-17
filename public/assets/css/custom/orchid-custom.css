@@ -91,6 +91,10 @@
     padding-bottom: unset !important;
 }
 
+.no-border-top{
+    border-top: unset !important;
+}
+
 .new-order-modal dt.text-muted{
     font-size: .875rem !important;
     color: #444054 !important;

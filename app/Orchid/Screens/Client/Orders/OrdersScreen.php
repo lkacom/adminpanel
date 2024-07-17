@@ -21,7 +21,7 @@ class OrdersScreen extends Screen
     public function query(): iterable
     {
         $userEmail = Auth::id();
-        dd($userEmail);
+        //dd($userEmail);
         $orders = Order::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
 
         return [

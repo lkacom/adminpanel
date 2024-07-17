@@ -4,6 +4,7 @@ namespace App\Orchid\Screens\Client;
 
 use App\Models\Product;
 use Auth;
+use Mirbaagheri\Cart\Facades\Cart;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
@@ -41,6 +42,7 @@ class ShopScreen extends Screen
 
     public function layout(): iterable
     {
+        dd(Cart::content());
         return [
             Layout::columns([
                 Layout::table('products', [
@@ -59,14 +61,17 @@ class ShopScreen extends Screen
             ]),
 
             Layout::modal('new-order-modal', [
+
                 Layout::rows([
                     Input::make('product.id')->hidden(),
                 ])->class('hidden'),
+
                 Layout::legend('', [
                     Sight::make('product.name','Product Name:'),
                     Sight::make('product.protocol.name','Protocol:'),
                     Sight::make('product.price','Product Price:'),
-                ])->border(false)->class('no-py new-order-modal'),
+                ])->class('no-py no-border-top new-order-modal'),
+
             ])->async('asyncGetProduct')->applyButton('Buy Now'),
         ];
     }

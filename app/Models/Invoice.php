@@ -25,7 +25,7 @@ class Invoice extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
-    protected $allowedSorts = [
+    protected array $allowedSorts = [
         'id',
         'user_id',
         'status',
@@ -34,7 +34,7 @@ class Invoice extends Model
         'created_at',
     ];
 
-    protected $allowedFilters = [
+    protected array $allowedFilters = [
         'id'            => Like::class,
         'user_id'       => Like::class,
         'description'   => Like::class,
@@ -43,5 +43,18 @@ class Invoice extends Model
         'created_at'    => WhereDateStartEnd::class,
     ];
 
-
+//    public function create(string $description,array $items)
+//    {
+//        $this->fireEvent('invoice.creating',collect($items));
+//        $invoice = $this->createModel();
+//        $invoice->description = $description;
+//        $invoice->save();
+//
+//        $invoiceItems = new Items(config()->get('mirbaagheri.invoice.item.model'),app()->get('events'));
+//        $invoiceItems->addToInvoice($invoice,$items);
+//
+//        $this->fireEvent('invoice.created',$invoice);
+//
+//        return $invoice;
+//    }
 }

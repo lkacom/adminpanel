@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "cartalyst/support": "^8.0",
         "coconutcraig/laravel-postmark": "^3.2",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.1",
@@ -13,6 +14,8 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
         "milon/barcode": "^11.0",
+        "mirbaagheri/invoice": "^1.0",
+        "mirbaagheri/laravel-cart": "^1.0",
         "orchid/crud": "^4.2",
         "orchid/icons": "^2.2",
         "orchid/platform": "^14.25"

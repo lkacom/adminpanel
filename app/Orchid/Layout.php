@@ -17,8 +17,7 @@ class Layout extends FacadesLayout
         return new class($target, $columns) extends Legend
         {
             protected $columns;
-            protected $border   = true;
-            protected $class    = '';
+            protected string $class;
 
             public function __construct(string $target, array $columns)
             {
@@ -50,15 +49,8 @@ class Layout extends FacadesLayout
                     'columns'       => $columns,
                     'slug'          => $this->getSlug(),
                     'title'         => $this->title,
-                    'border'        => $this->border,
                     'class'         => $this->class,
                 ]);
-            }
-
-            public function border($border=true)
-            {
-                $this->border = $border;
-                return $this;
             }
 
             public function class($class='')
