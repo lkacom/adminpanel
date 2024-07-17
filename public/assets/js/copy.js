@@ -18,6 +18,9 @@ let KTAccountAPIKeys = {
                 let c = e.querySelector(".ki-copy"),
                     i = e.querySelector(".ki-check");
                (i = document.createElement("i")).classList.add("ki-solid");
+                let toast = document.querySelector('[data-controller="toast"]');
+                let toastController = application.getControllerForElementAndIdentifier(toast, 'toast');
+                toastController.alert('Config Copied', '', 'info');
                 //     i.classList.add("ki-check");
                 //     i.classList.add("fs-2");
                 //     e.appendChild(i);

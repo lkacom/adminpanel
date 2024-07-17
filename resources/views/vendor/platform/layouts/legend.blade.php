@@ -10,7 +10,7 @@
 
     <dl class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
         @foreach($columns as $column)
-            <div class="d2-grid py-3 {{ $loop->first ? '' : 'border-top' }}">
+            <div class="d2-grid py-3 {{ $loop->first ? '' : 'border-top'}} {{$class ?? ''}}">
                 <dt class="text-muted fw-normal me-3">
                     {!! $column->buildDt($repository) !!}
                 </dt>

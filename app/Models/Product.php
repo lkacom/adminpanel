@@ -17,7 +17,7 @@ class Product extends Model
     protected $table = 'products' ;
 
     protected $fillable = [
-        'VPN_Name',
+        'name',
         'protocol_id',
         'server_id',
         'period_id'

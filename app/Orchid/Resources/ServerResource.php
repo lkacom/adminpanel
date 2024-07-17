@@ -13,6 +13,12 @@ class ServerResource extends Resource
 
     public static $model = Server::class;
 
+    public function show()
+    {
+        dd('dddd');
+    }
+
+
     public static function permission(): ?string
     {
         return 'admin.servers';

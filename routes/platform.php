@@ -39,8 +39,8 @@ Route::group(['prefix' => 'client'], function (){
         Route::screen('dashboard'           , ClientDashboardScreen::class) ->name('client.dashboard');
         Route::screen('shop'                , ShopScreen::class)            ->name('client.shop');
         Route::screen('order-history'       , OrdersScreen::class)          ->name('client.orders');
-        Route::screen('my-invoices'         , ClientInvoicesScreen::class)  ->name('client.invoices');
-        Route::screen('buy/{id}'            , OrderScreen::class)           ->name('client.buy');
+        Route::screen('order'               , OrderScreen::class)           ->name('client.order');
+        Route::screen('invoices'            , ClientInvoicesScreen::class)  ->name('client.invoices');
     });
 });
 

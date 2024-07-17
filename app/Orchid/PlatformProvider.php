@@ -10,77 +10,79 @@ use Orchid\Platform\OrchidServiceProvider;
 use Orchid\Platform\ItemPermission;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Menu;
-use Orchid\Screen\Builder;
-use Orchid\Screen\Fields\Input;
 
 class PlatformProvider extends OrchidServiceProvider
 {
+
+
     public function menu(): array
     {
         return [
 
             // Admin menu
             Auth::user()->hasAnyAccess('admin.*.menu')?
-            Menu::make()
-                ->active('*')
-                ->slug('admin-menu')
-                ->list([
-                    Menu::make('Dashboard')
-                        ->icon('bs.book')
-                        ->permission('admin.dashboard.menu')
-                        ->route('admin.dashboard'),
+                Menu::make()
+                    ->active('*')
+                    ->slug('admin-menu')
+                    ->title('Admin Menu')
+                    ->list([
+                        Menu::make('Dashboard')
+                            ->icon('bs.book')
+                            ->permission('admin.dashboard.menu')
+                            ->route('admin.dashboard'),
 
-                    Menu::make('Invoices')
-                        ->icon('task')
-                        ->permission('admin.invoices.menu')
-                        ->route('admin.invoices'),
+                        Menu::make('Invoices')
+                            ->icon('task')
+                            ->permission('admin.invoices.menu')
+                            ->route('admin.invoices'),
 
-                    Menu::make('Transactions')
-                        ->icon('money')
-                        ->permission('admin.transactions.menu')
-                        ->route('admin.transactions'),
+                        Menu::make('Transactions')
+                            ->icon('money')
+                            ->permission('admin.transactions.menu')
+                            ->route('admin.transactions'),
 
-                    Menu::make(__('Users'))
-                        ->icon('bs.people')
-                        ->permission('admin.users.menu')
-                        ->route('admin.users'),
+                        Menu::make(__('Users'))
+                            ->icon('bs.people')
+                            ->permission('admin.users.menu')
+                            ->route('admin.users'),
 
-                    Menu::make(__('Roles'))
-                        ->icon('bs.shield')
-                        ->permission('admin.roles.menu')
-                        ->route('admin.roles'),
+                        Menu::make(__('Roles'))
+                            ->icon('bs.shield')
+                            ->permission('admin.roles.menu')
+                            ->route('admin.roles'),
 
-                    Menu::make(__('Protocols'))
-                        ->icon('shield')
-                        ->permission('admin.protocols.menu')
-                        ->route('platform.resource.list', [ProtocolResource::uriKey()]),
+                        Menu::make(__('Protocols'))
+                            ->icon('shield')
+                            ->permission('admin.protocols.menu')
+                            ->route('platform.resource.list', [ProtocolResource::uriKey()]),
 
-                    Menu::make(__('Periods'))
-                        ->icon('speedometer')
-                        ->permission('admin.periods.menu')
-                        ->route('platform.resource.list', [PeriodResource::uriKey()]),
+                        Menu::make(__('Periods'))
+                            ->icon('speedometer')
+                            ->permission('admin.periods.menu')
+                            ->route('platform.resource.list', [PeriodResource::uriKey()]),
 
-                    Menu::make(__('Servers'))
-                        ->icon('server')
-                        ->permission('admin.servers.menu')
-                        ->route('platform.resource.list', [ServerResource::uriKey()]),
+                        Menu::make(__('Servers'))
+                            ->icon('server')
+                            ->permission('admin.servers.menu')
+                            ->route('platform.resource.list', [ServerResource::uriKey()]),
 
-                    Menu::make(__('Products'))
-                        ->icon('handbag')
-                        ->permission('admin.products.menu')
-                        ->route('platform.resource.list', [ProductResource::uriKey()]),
+                        Menu::make(__('Products'))
+                            ->icon('handbag')
+                            ->permission('admin.products.menu')
+                            ->route('platform.resource.list', [ProductResource::uriKey()]),
 
-                    Menu::make('')
-                        ->icon('bs.box-arrow-left')
-                        ->permission('admin.logout.menu')
-                        ->addBeforeRender(function (){
-                            echo Button::make(__('Logout'))
-                                ->class('btn btn-default btn-block p-3 no-border no-bg text-white logout-from-menu')
-                                ->icon('bs.box-arrow-left')
-                                ->route('platform.logout');
-                        }),
-                ]):
-                Menu::make(),
+                        Menu::make('')
+                            ->icon('bs.box-arrow-left')
+                            ->permission('admin.logout.menu')
+                            ->addBeforeRender(function (){
+                                echo Button::make(__('Logout'))
+                                    ->confirm('Do you really want to leave the panel? are you sure?<br>If yes, click on Logout button')
+                                    ->class('btn btn-default btn-block p-3 no-border no-bg text-white logout-from-menu')
+                                    ->icon('bs.box-arrow-left')
+                                    ->route('platform.logout');
+                            }),
+                    ]):
+                    Menu::make(),
 
             // Client Menu
             Auth::user()->hasAnyAccess('client.*.menu')?
@@ -119,14 +121,13 @@ class PlatformProvider extends OrchidServiceProvider
                             ->permission('client.logout.menu')
                             ->addBeforeRender(function (){
                                 echo Button::make(__('Logout'))
-                                    ->class('btn btn-default btn-block p-3 no-border no-bg text-white logout-from-menu')
+                                    ->confirm('Do you really want to leave the panel? are you sure?<br>If yes, click on Logout button')
+                                    ->class('btn btn-default btn-block no-border no-bg text-white logout-from-menu')
                                     ->icon('bs.box-arrow-left')
                                     ->route('platform.logout');
                         }),
-
-
                     ])
-                :Menu::make()
+                    :Menu::make()
         ];
     }
 

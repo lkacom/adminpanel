@@ -17,14 +17,8 @@ use Orchid\Screen\TD;
 
 class UserListLayout extends Table
 {
-    /**
-     * @var string
-     */
     public $target = 'users';
 
-    /**
-     * @return TD[]
-     */
     public function columns(): array
     {
         return [
@@ -49,9 +43,9 @@ class UserListLayout extends Table
                     ])),
 
             TD::make('email_verified_at','Verify Status')
-                ->render(fn (\Orchid\Platform\Models\User $user) => $user->email_verified_at === null
-                    ? '<i class="text-danger">.</i> Not Verified'
-                    : '<i class="text-success">.</i> Verified'),
+                ->render(fn (User $user) => $user->email_verified_at === null
+                    ? '<i class="text-danger circle"></i> Not Verified'
+                    : '<i class="text-success circle"></i> Verified'),
 
             TD::make('created_at', __('Register Date'))
                 ->defaultHidden()
@@ -71,7 +65,6 @@ class UserListLayout extends Table
                 ->render(fn (User $user) => DropDown::make()
                     ->icon('bs.three-dots-vertical')
                     ->list([
-
                         Link::make(__('Edit'))
                             ->route('admin.users.edit', $user->id)
                             ->icon('bs.pencil'),

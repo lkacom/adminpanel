@@ -16,6 +16,6 @@ class Protocol extends Model
 
     protected $table = 'protocols' ;
 
-    protected $fillable = ['protocol_name'];
+    protected $fillable = ['name'];
 
 }

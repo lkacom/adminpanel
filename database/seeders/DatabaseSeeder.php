@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
                 "admin.roles"       => 1,
                 "admin.users.menu"  => 1,
                 "admin.users"       => 1,
+		
                 "admin.periods"       => 1,
                 "admin.servers"       => 1,
                 "admin.servers.menu"       => 1,
@@ -72,6 +73,7 @@ class DatabaseSeeder extends Seeder
             'name'  => 'Client',
             'permissions' => [
                 "platform.index"    => 1,
+		
                 "client.dashboard"       => 1,
                 "client.order.new"       => 1,
                 "client.shop.menu"       => 1,

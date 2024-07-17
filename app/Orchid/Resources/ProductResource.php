@@ -56,24 +56,31 @@ class ProductResource extends Resource
     {
         return [
 
-            Input::make('VPN_Name')
+            Input::make('name')
                 ->title('Product Name')
                 ->placeholder('Enter product name')
                 ->required(),
 
             Select::make('period_id')
-                ->title('Period Time')
-                ->fromModel(Period::class, 'period_time')
+                ->title('Duration')
+                ->fromModel(Period::class, 'duration')
                 ->required(),
 
             Select::make('protocol_id')
                 ->title('protocol')
-                ->fromModel(Protocol::class, 'protocol_name')
+                ->fromModel(Protocol::class, 'name')
                 ->required(),
 
             Select::make('server_id')
                 ->title('server')
-                ->fromModel(Server::class, 'server_name')
+                ->fromModel(Server::class, 'name')
+                ->required(),
+
+            Input::make('price')
+                ->title('Product Price')
+                ->placeholder('Enter product Price in Toman')
+                ->type('number')
+                ->min(100)
                 ->required(),
         ];
     }

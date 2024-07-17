@@ -3,16 +3,17 @@
 namespace App\Orchid\Screens\Client;
 
 use App\Models\Product;
+use Auth;
+use Mirbaagheri\Cart\Facades\Cart;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Screen;
+use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
-use Orchid\Support\Facades\Layout;
+use App\Orchid\Layout;
 
 class ShopScreen extends Screen
 {
-
     public function permission(): ?iterable
     {
         return ['client.shop.index'];
@@ -23,7 +24,12 @@ class ShopScreen extends Screen
             'products'   => Product::query()->get(),
         ];
     }
-
+    public function asyncNewOrderModal($product): iterable
+    {
+        return [
+            'product' => $product,
+        ];
+    }
     public function name(): string
     {
         return __('Purchase Order');
@@ -33,42 +39,47 @@ class ShopScreen extends Screen
     {
         return __('Product list for new order');
     }
-    public function asyncNewOrder(Product $product): iterable
-    {
-        return [
-            'product' => $product,
-        ];
-    }
 
     public function layout(): iterable
     {
+        dd(Cart::content());
         return [
             Layout::columns([
                 Layout::table('products', [
-                    TD::make('id', __('ID'))->sort(),
-                    TD::make('VPN_Name', __('Product Name'))->render(function ($product) {
-                            return "{$product->VPN_Name} {$product->period->period_time} {$product->protocol->protocol_name} {$product->server->server_name}";
+                    TD::make(__('Product Name'))->render(function ($product) {
+                            return "{$product->name} {$product->period->time} {$product->protocol->name} {$product->server->name}";
                         }),
-                    TD::make('id', __('Action'))->render(function ($product) {
-                            return ModalToggle::make('Buy Now')
+                    TD::make(__('Action'))->render(function ($product) {
+                        return Auth::user()->hasAccess('client.order.new')?
+                            ModalToggle::make('Buy Now')
                                 ->modal('new-order-modal')
-                                ->modalTitle('Buy '.$product->VPN_Name)
-                                ->parameters(['product'=>$product->id]);
+                                ->parameters(['product' => $product->id])
+                                ->route('client.order', ['new']):'<span class="btn-danger">Order registration is not allowed</span>';
                         }),
                 ]),
+
             ]),
+
             Layout::modal('new-order-modal', [
+
                 Layout::rows([
-                    Label::make('product.VPN_Name'),
-                    Input::make('product.VPN_Name')
-                        ->type('text')
-                        ->max(255)
-                        ->required()
-                        ->title(__('Name'))
-                        ->placeholder(__('Name')),
-                ]),
-            ])->async('asyncNewOrder')
+                    Input::make('product.id')->hidden(),
+                ])->class('hidden'),
+
+                Layout::legend('', [
+                    Sight::make('product.name','Product Name:'),
+                    Sight::make('product.protocol.name','Protocol:'),
+                    Sight::make('product.price','Product Price:'),
+                ])->class('no-py no-border-top new-order-modal'),
+
+            ])->async('asyncGetProduct')->applyButton('Buy Now'),
         ];
     }
 
+    public function asyncGetProduct(Product $product): iterable
+    {
+        return [
+            'product' => $product
+        ];
+    }
 }

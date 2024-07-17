@@ -51,7 +51,7 @@ class ProtocolResource extends Resource
     public function fields(): array
     {
         return [
-            Input::make('protocol_name')->horizontal()
+            Input::make('name')->horizontal()
                 ->title('VPN Protocol')
                 ->placeholder('Enter Protocol Connection'),
         ];
@@ -61,7 +61,7 @@ class ProtocolResource extends Resource
     {
         return [
             TD::make('id','Number'),
-            TD::make('protocol_name','Protocol'),
+            TD::make('name','Protocol'),
 
             TD::make('created_at', 'Date of creation')
                 ->render(function ($model) {

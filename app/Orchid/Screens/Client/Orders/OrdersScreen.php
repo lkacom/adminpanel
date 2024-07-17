@@ -18,18 +18,14 @@ class OrdersScreen extends Screen
         return ['client.orders.index'];
     }
 
-    /**
-     * Fetch data to be displayed on the screen.
-     *
-     * @return array
-     */
     public function query(): iterable
     {
         $userEmail = Auth::id();
-        $myservice = Order::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
+        //dd($userEmail);
+        $orders = Order::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
 
         return [
-            'table'   => ($myservice),
+            'table'   => ($orders),
         ];
     }
 
@@ -50,139 +46,41 @@ class OrdersScreen extends Screen
     public function layout(): iterable
     {
         return [
+            Layout::columns([
+                Layout::table('table', [
 
-            Layout::tabs([
-                __('Direct Config') => [
-                    Layout::table('table', [
+                    TD::make('id',__('ID'))
+                        ->filter(Input::make())
+                        ->sort(),
 
-                        TD::make('id',__('ID'))
-                            ->filter(Input::make())
-                            ->sort(),
+                    TD::make('user_id',__('Email'))
+                        ->render(function (Order $invoice) {
+                            return $invoice->user->email;
+                        })
+                        ->sort()
+                        ->filter(Input::make()),
 
-                        TD::make('user_id',__('Email'))
-                            ->render(function (Order $invoice) {
-                                return $invoice->user->email;
-                            })
-                            ->sort()
-                            ->filter(Input::make()),
+                    TD::make('name',__('Type'))
+                        ->filter(Input::make())
+                        ->sort(),
 
-                        TD::make('name',__('Type'))
-                            ->filter(Input::make())
-                            ->sort(),
+                    TD::make('expiration_date',__('Expire Date'))
+                        ->filter(Input::make())
+                        ->sort(),
 
-                        TD::make('expiration_date',__('Expire Date'))
-                            ->filter(Input::make())
-                            ->sort(),
+                    TD::make('config',__('Config'))
+                        ->render(function ($invoice) {
+                            $QR = DNS2D::getBarcodePNG(url('qr/'.$invoice->uuid), 'QRCODE',4.55,4.55);
+                            return "<img src='data:image/png;base64,$QR'/>";
+                        }),
 
-                        TD::make('config',__('Config'))
-                            ->render(function ($invoice) {
-                                $configURI = $invoice->config;
-                                $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',2,2);
-                                return "
-                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI' style='cursor: pointer;/>
-                                <span class='copy-result'>
-                                    <i class='ki-solid ki-copy fs-2'></i>
-                                </span>";
-                            }),
-
-                        TD::make('status',__('Status'))
-                            ->render(fn (Order $user) => Carbon::now()->lte($user->expiration_date)
-                                ? '<i class="text-success">Active</i>'
-                                : '<i class="text-danger">Expired</i>'
-                            ),
-                    ]),
-
-
-                ],
-                __('Fragment') => [
-                    Layout::table('table', [
-
-                        TD::make('id',__('ID'))
-                            ->filter(Input::make())
-                            ->sort(),
-
-                        TD::make('user_id',__('Email'))
-                            ->render(function (Order $invoice) {
-                                return $invoice->user->email;
-                            })
-                            ->sort()
-                            ->filter(Input::make()),
-
-                        TD::make('name',__('Type'))
-                            ->filter(Input::make())
-                            ->sort(),
-
-                        TD::make('expiration_date',__('Expire Date'))
-                            ->filter(Input::make())
-                            ->sort(),
-
-                        TD::make('config',__('Config'))
-                            ->render(function ($invoice) {
-                                $configURI = url('subs/'.$invoice->uuid);
-                                $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',3,3);
-                                return "
-                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI' style='cursor: pointer;/>
-                                <span class='copy-result'>
-                                    <i class='ki-solid ki-copy fs-2'></i>
-                                </span>";
-                            }),
-
-                        TD::make('status',__('Status'))
-                            ->render(fn (Order $user) => Carbon::now()->lte($user->expiration_date)
-                                ? '<i class="text-success">Active</i>'
-                                : '<i class="text-danger">Expired</i>'
-                            ),
-                    ]),
-
-
-                ],
-
-                __('Subscription') => [
-                    Layout::table('table', [
-
-                        TD::make('id',__('ID'))
-                            ->filter(Input::make())
-                            ->sort(),
-
-                        TD::make('user_id',__('Email'))
-                            ->render(function (Order $invoice) {
-                                return $invoice->user->email;
-                            })
-                            ->sort()
-                            ->filter(Input::make()),
-
-                        TD::make('name',__('Type'))
-                            ->filter(Input::make())
-                            ->sort(),
-
-                        TD::make('expiration_date',__('Expire Date'))
-                            ->filter(Input::make())
-                            ->sort(),
-
-                        TD::make('config',__('Config'))
-                            ->render(function ($invoice) {
-                                $configURI = url('json/'.$invoice->uuid);
-                                $QR = DNS2D::getBarcodePNG($configURI, 'QRCODE',3,3);
-                                return "
-                                <img src='data:image/png;base64,$QR' alt='QRCode' data-action='copy' data-content='$configURI' style='cursor: pointer;/>
-                                <span class='copy-result'>
-                                    <i class='ki-solid ki-copy fs-2'></i>
-                                </span>";
-                            }),
-
-                        TD::make('status',__('Status'))
-                            ->render(fn (Order $user) => Carbon::now()->lte($user->expiration_date)
-                                ? '<i class="text-success">Active</i>'
-                                : '<i class="text-danger">Expired</i>'
-                            ),
-                    ]),
-
-
-                ],
-
+                    TD::make('status',__('Status'))
+                        ->render(fn (Order $user) => Carbon::now()->lte($user->expiration_date)
+                            ? '<i class="text-success circle">Active</i>'
+                            : '<i class="text-danger circle">Expired</i>'
+                        ),
+                ]),
             ]),
-
-
         ];
     }
 }
