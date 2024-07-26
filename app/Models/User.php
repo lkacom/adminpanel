@@ -25,8 +25,6 @@ class User extends OrchidUser implements MustVerifyEmail
     use TwoFactorAuthenticatable;
     use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
 
-    public $rrr;
-
     protected $table = 'users' ;
 
     protected $fillable = [
@@ -103,5 +101,12 @@ class User extends OrchidUser implements MustVerifyEmail
         $this->createActivationCode();
         $this->notify(new VerifyEmail);
     }
+
+    public function invoices(){
+        return $this->hasMany(Invoice::class);
+    }
     
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
 }

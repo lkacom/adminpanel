@@ -1,16 +1,18 @@
 <?php
 namespace App\Orchid\Screens\Client;
 
+
+use App\Http\Controllers\ApiProxyGateway\PaymentMediator\CreateTokenController as Token;
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Models\Transaction;
 use Auth;
+use Http;
 use Illuminate\Support\Arr;
 use Orchid\Screen\Screen;
 
 class OrderScreen extends Screen
 {
-
-    public array $productsToBuy = [];
 
     public function permission(): ?iterable
     {
@@ -21,59 +23,59 @@ class OrderScreen extends Screen
     {
         if(Auth::user()->hasAccess('client.order.new')){
             $products = Product::find(request()->only('product'));
-            $this->createPurchase($products);
+            $invoice = (new Invoice)->create($products);
+            if ($invoice->amount === 0) {
+                return v2ray()->createClient(Auth::user());
+            } else {
+                $transaction = $this->createTransaction($invoice);
+                return view('redirectForm')->with(
+                    [
+                        'action' => $transaction->payment_url,
+                        'inputs' => [
+                            'transaction_id' => $transaction->transaction_id,
+                            'tracking_cookie' => $transaction->tracking_cookie,
+                        ],
+                        'method' => 'POST',
+                    ]
+                );
+            }
         }
         else abort(403);
     }
 
-    protected function createPurchase($products)
+    protected function createTransaction(Invoice $invoice)
     {
-        $invoice = $this->creteInvoice($products);
 
-        if (request()->ajax()) {
-            return $invoice;
-        }
-        else{
-            $data = json_decode($invoice,true)['data'];
-            return view('redirectForm')->with(
-                [
-                    'action' => $data['payment_url'],
-                    'inputs' => Arr::only($data, ['transaction_id', 'tracking_cookie']),
-                    'method' => 'POST',
-                ]
-            );
-        }
-    }
+        //Connect to Payment-Mediator service
+        $url    = env('PAYMENT_MEDIATOR_API_URL');
+        $token = json_decode((new Token())->store())->access_token;
 
-    protected function creteInvoice($products)
-    {
-        $this->prepareProductsForInvoice($products);
-        $invoice = Invoice::create([
-            'user_id' => Auth::user()->id,
-            'amount' => 0,
+
+
+        $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->post($url . '/transactions', [
+                'gateway' => 'jibit',
+                'amount' => $invoice->amount,
+                //'tracking_code' => $invoice->getAttribute('trackingId')->id,
+                'return_url' => url('verify-payment'),
+                'comment' => 'A comment for test',
+            ])->object();
+
+
+        $transaction = new Transaction;
+        $transaction->fill([
+            'amount'            => $invoice['amount'],
+            'tracking_cookie'   => $response->data->tracking_cookie,
+            'transaction_id'    => $response->data->transaction_id,
+            'invoice_id'        => $invoice->id
         ]);
-dd($invoice);
-        $invoice = $invoice->load('items');
-
-        if ($invoice->price === 0) {
-            return createV2rayClient($this->user);
-        } else {
-            //Create TransactionId
-            return $this->createTransaction($invoice);
-            //$invoice->tracking_id = $invoice->trackingId->id;
-        }
-
-        //$response = compact('invoice', 'transaction');
-        //return response()->success($response, 200, 'Invoice & bank transaction created.');
-
+        $transaction->save();
+        return $response->data;
     }
 
-    protected function prepareProductsForInvoice( $products)
-    {
-        return $products->each(function ($item) {
-            return $this->productsToBuy[$item->id] = 1;
-        });
-    }
+
+
 
 
     public function query($id): iterable

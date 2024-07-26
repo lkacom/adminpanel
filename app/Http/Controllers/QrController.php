@@ -1,17 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\UserServicesEloquent;
+use App\Models\Order;
 
 
 class QrController extends Controller
 {
-    public $user;
-
     public function show($uuid){
-        $service = UserServicesEloquent::where('uuid',$uuid)->get()->first();
-        if($service){
-            return response()->json(json_decode($service->config));
+        $order = Order::where('uuid',$uuid)->get()->first();
+        if($order){
+            return response()->json(json_decode($order->attributes));
         }
         return abort(404);
     }

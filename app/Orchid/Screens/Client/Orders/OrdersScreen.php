@@ -20,12 +20,10 @@ class OrdersScreen extends Screen
 
     public function query(): iterable
     {
-        $userEmail = Auth::id();
-        //dd($userEmail);
-        $orders = Order::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
+        $user = Auth::user();
 
         return [
-            'table'   => ($orders),
+            'orders'   => $user->orders,
         ];
     }
 
@@ -47,7 +45,8 @@ class OrdersScreen extends Screen
     {
         return [
             Layout::columns([
-                Layout::table('table', [
+
+                Layout::table('orders', [
 
                     TD::make('id',__('ID'))
                         ->filter(Input::make())
@@ -66,19 +65,32 @@ class OrdersScreen extends Screen
 
                     TD::make('expiration_date',__('Expire Date'))
                         ->filter(Input::make())
+                        ->render(function (Order $order) {
+                            if($order->attributes){
+                                return Carbon::make(json_decode($order->attributes)->expiryTime)->setTimezone('Asia/Tehran')->format('Y-m-d H:i:s e');
+                            }
+                            return '';
+                        })
                         ->sort(),
 
                     TD::make('config',__('Config'))
-                        ->render(function ($invoice) {
-                            $QR = DNS2D::getBarcodePNG(url('qr/'.$invoice->uuid), 'QRCODE',4.55,4.55);
-                            return "<img src='data:image/png;base64,$QR'/>";
+                        ->render(function (Order $order) {
+                            if($order->attributes){
+                                $QR = DNS2D::getBarcodePNG(url('qr/' . $order->uuid), 'QRCODE', 4.55, 4.55);
+                                return "<img src='data:image/png;base64,$QR'/>";
+                            }
+                            return '';
                         }),
 
                     TD::make('status',__('Status'))
-                        ->render(fn (Order $user) => Carbon::now()->lte($user->expiration_date)
-                            ? '<i class="text-success circle">Active</i>'
-                            : '<i class="text-danger circle">Expired</i>'
-                        ),
+                        ->render(function (Order $order) {
+                            if($order->attributes){
+                                return Carbon::now()->lte(json_decode($order->attributes)->expiryTime)
+                                    ? '<i class="text-success circle">Active</i>'
+                                    : '<i class="text-danger circle">Expired</i>';
+                            }
+                            return '<i class="text-warning circle">Pending</i>';
+                        }),
                 ]),
             ]),
         ];

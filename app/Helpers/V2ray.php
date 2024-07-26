@@ -1,9 +1,8 @@
 <?php
 namespace App\Helpers;
 
-use GuzzleHttp\Client as GuzzleHttp;
 use Http;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 use Storage;
 use Str;
 
@@ -17,42 +16,48 @@ class V2ray
     public $cleanIp;
     public $sni;
     public $port;
-    public $path='/';
-    public $tls = true;
+    public $path            ='/';
+    public $tls             = true;
     public $mux;
     public $insecure;
     public $concurrency;
-    public $packets = 'tlshello';
-    public $length = '10-20';
-    public $interval = '1-2';
+    public $packets         = 'tlshello';
+    public $length          = '10-20';
+    public $interval        = '1-2';
     public $grpcMode;
     public $serviceName;
-    public $fingerprint = 'chrome';
+    public $fingerprint     = 'chrome';
     public $direct;
     public $appName;
     public $remarks;
     public $fragment;
 
-    protected $loginUrl = 'https://st.ad24.top:2053/panel/login';
-    protected $APIUrl = 'https://st.ad24.top:2053/panel/xui/API';
-    protected $SubscriptionUrl = 'https://subs.ad24.top:2096/subs';
-    protected $username = 'hamed';
-    protected $password = 'hamed123@';
+//    protected $loginUrl         = 'https://st.ad24.top:2053/panel/login';
+//    protected $APIUrl           = 'https://st.ad24.top:2053/panel/xui/API';
+//    protected $SubscriptionUrl  = 'https://subs.ad24.top:2096/subs';
+//    protected $username         = 'hamed';
+//    protected $password         = 'hamed123@';
+
+    protected string $APIUrl           = 'https://ad24.strangled.net:2087/panel';
+    protected string $APIPath          = '/panel/api/inbounds';
+    protected string $SubscriptionUrl  = 'https://sub.ad24.top:2096/subs';
+    protected string $username         = 'hamed';
+    protected string $password         = 'hamed123@';
 
     public function __construct()
     {
         $this->fragment = json_decode(Storage::get('fragment.json'));
     }
 
-    public function createClient($user,$expiryTime = 0){
+    public function createClient($user,$expiryTime = 0)
+    {
         $v2ray_client_id = 't'.rand(10000, 99999).'-'.Str::limit($user->email, 23,'');
         $cookie = $this->v2rayLogin()->cookies();
-
         $settings = collect(
             [
                 "clients" =>
                     [
-                        0 =>[
+                        0 => [
                             "id"            => str_replace('@','-',$v2ray_client_id),
                             "alterId"       => 0,
                             "email"         => $v2ray_client_id,
@@ -68,8 +73,8 @@ class V2ray
         );
 
         //Connect to V2Ray API Service
-        $response = Http::withOptions(['cookies' => $cookie])->post($this->APIUrl.'/inbounds/addClient', [
-            'id' => 1,
+        $response = Http::withOptions(['cookies' => $cookie])->post($this->APIUrl.$this->APIPath.'/addClient', [
+            'id' => 5,
             'settings' => $settings->toJson(),
         ]);
         $result = $response->object();
@@ -159,7 +164,7 @@ class V2ray
 
     protected function v2rayLogin(){
         try {
-            $response = Http::post($this->loginUrl, [
+            $response = Http::post($this->APIUrl.'/login', [
                 'username' => $this->username,
                 'password' => $this->password
             ]);
@@ -171,7 +176,8 @@ class V2ray
             exit('Error');
         }
         catch (\exception $e){
-            throw new InvalidArgumentException('yyy.',401);
+            dd($e->getMessage());
+            //throw new InvalidArgumentException('yyy.',401);
         }
 
     }

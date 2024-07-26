@@ -11,7 +11,6 @@ use Orchid\Filters\Types\Like;
 use Orchid\Metrics\Chartable;
 use Orchid\Screen\AsSource;
 
-
 class Order extends Model
 {
     use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
@@ -19,9 +18,9 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
-        'name',
-        'trial',
-        'user_id'
+        'user_id',
+        'uuid',
+        'product_id'
     ];
 
     protected array $allowedSorts = [
@@ -39,9 +38,16 @@ class Order extends Model
 
     ];
 
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function invoice(){
+        return $this->hasOne(Invoice::class, 'id', 'invoice_id');
+    }
+
+    public function product(){
+        return $this->hasOne(Product::class, 'id','product_id');
     }
 
 }

@@ -3,7 +3,9 @@
 namespace App\Orchid\Resources;
 
 use App\Models\Period;
+use Illuminate\Database\Eloquent\Model;
 use Orchid\Crud\Resource;
+use Orchid\Crud\ResourceRequest;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\TD;
 use Orchid\Screen\Fields\Input;
@@ -12,6 +14,13 @@ use Orchid\Screen\Sight;
 class PeriodResource extends Resource {
 
     public static $model = Period::class;
+
+    public function onSave(ResourceRequest $request, Model $model)
+    {
+        $model->fill([
+            'duration' => $request->get('duration')
+        ])->save();
+    }
 
     public static function permission(): ?string
     {
@@ -54,7 +63,7 @@ class PeriodResource extends Resource {
             Input::make('duration')
                 ->horizontal()
                 ->title('Duration Time')
-                ->placeholder('Enter Period Time (only Month)')
+                ->placeholder('Enter Period Time')
                 ->required(),
 
             Select::make('type')
@@ -64,6 +73,7 @@ class PeriodResource extends Resource {
                     'minute'    => 'Minutes',
                     'hour'      => 'Hours',
                     'day'       => 'Days',
+                    'week'      => 'Weeks',
                     'month'     => 'Months',
                     'year'      => 'Years'
                 ]),
@@ -74,17 +84,7 @@ class PeriodResource extends Resource {
     public function columns(): array
     {
         return [
-            TD::make('id'),
             TD::make('duration', 'Duration'),
-            TD::make('created_at', 'Date of creation')
-                ->render(function ($model) {
-                    return $model->created_at->toDateTimeString();
-                }),
-
-            TD::make('updated_at', 'Update date')
-                ->render(function ($model) {
-                    return $model->updated_at->toDateTimeString();
-                }),
         ];
     }
 

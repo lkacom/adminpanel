@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('invoice_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->string('status');
+            $table->string('status')->default('pending');
             $table->string('amount');
-            $table->string('transation_id');
-            $table->string('racking_cookie');
-            $table->string('comment');
+            $table->string('transaction_id');
+            $table->string('tracking_cookie')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('transactions');
     }
 };

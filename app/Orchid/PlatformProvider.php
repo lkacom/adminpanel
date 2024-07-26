@@ -151,6 +151,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->addPermission('client.order.new'      , 'order.new')
                 ->addPermission('client.orders.renew'   , 'orders.renew')
                 ->addPermission('client.invoices.index' , 'invoices.index')
+                ->addPermission('client.invoices.show'  , 'invoices.show')
                 ->addPermission('client.profile.index'  , 'profile.index')
                 ->addPermission('client.profile.update' , 'profile.update'),
             // Client Permissions - End
