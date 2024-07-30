@@ -51,7 +51,7 @@ class InvoicesScreen extends Screen
         return [
             Layout::columns([
                 Layout::table('table', [
-                    
+
                     TD::make('id',__('ID'))
                         ->filter(Input::make())
                         ->sort(),

@@ -20,7 +20,8 @@ class Product extends Model
         'name',
         'protocol_id',
         'server_id',
-        'period_id'
+        'period_id',
+
     ];
 
     public function protocol()
@@ -37,4 +38,6 @@ class Product extends Model
     {
         return $this->belongsTo(Period::class,'period_id');
     }
+
+
 }
