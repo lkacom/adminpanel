@@ -63,12 +63,6 @@
             "dont-discover": []
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://repo.packagist.org"
-        }
-    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

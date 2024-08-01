@@ -86,10 +86,10 @@ class DashboardScreen extends Screen
                                 </span>";
                         }),
 
-                    TD::make('status',__('Status'))
-                        ->render(fn (Order $order) => Carbon::now()->lte($order->expiration_date)
-                            ? '<i class="text-danger circle">Expired</i>'
-                            : '<i class="text-success circle">Active</i>'),
+//                    TD::make('status',__('Status'))
+//                        ->render(fn (Order $order) => Carbon::now()->lte($order->expiration_date)
+//                            ? '<i class="text-danger circle">Expired</i>'
+//                            : '<i class="text-success circle">Active</i>'),
                 ]),
             ]),
 
