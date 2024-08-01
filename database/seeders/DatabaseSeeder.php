@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
                 "admin.users"       => 1,
 
                 "admin.periods"       => 1,
+                "admin.periods.menu"       => 1,
                 "admin.servers"       => 1,
                 "admin.servers.menu"       => 1,
                 "admin.invoices"       => 1,
@@ -46,7 +47,7 @@ class DatabaseSeeder extends Seeder
                 "admin.protocols"       => 1,
                 "admin.protocols.menu"       => 1,
                 "admin.logout.menu"       => 1,
-                "admin.admin.transactions"       => 1,
+                "admin.transactions"       => 1,
                 "admin.transactions.menu"       => 1,
                 "platform.systems.attachment"       => 1,
                 "client.dashboard"       => 0,
