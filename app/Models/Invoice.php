@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +12,7 @@ use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Metrics\Chartable;
 use Orchid\Screen\AsSource;
+use Str;
 
 class Invoice extends Model
 {
@@ -19,11 +21,6 @@ class Invoice extends Model
     protected $table = 'invoices' ;
 
     protected $fillable = ['amount', 'user_id'];
-
-    public function users()
-    {
-        return $this->belongsTo(User::class,'user_id');
-    }
 
     protected array $allowedSorts = [
         'id',
@@ -43,18 +40,33 @@ class Invoice extends Model
         'created_at'    => WhereDateStartEnd::class,
     ];
 
-//    public function create(string $description,array $items)
-//    {
-//        $this->fireEvent('invoice.creating',collect($items));
-//        $invoice = $this->createModel();
-//        $invoice->description = $description;
-//        $invoice->save();
-//
-//        $invoiceItems = new Items(config()->get('mirbaagheri.invoice.item.model'),app()->get('events'));
-//        $invoiceItems->addToInvoice($invoice,$items);
-//
-//        $this->fireEvent('invoice.created',$invoice);
-//
-//        return $invoice;
-//    }
+    public function user(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class,'invoice_id');
+    }
+
+    public function create($products)
+    {
+        $this->amount   = $this->calculateAmount($products);
+        $this->user_id  = Auth::user()->id;
+        $this->save();
+        $products->each(function ($product) {
+            $this->orders()->create([
+                'invoice_id'    => $this->id,
+                'user_id'       => Auth::user()->id,
+                'product_id'    => $product->id,
+                'uuid'          => Str::orderedUuid()
+            ]);
+        });
+        return $this;
+    }
+
+    protected function calculateAmount($products){
+        return $products->map(function ($product) {
+            return $product->price;
+        })->sum();
+    }
 }

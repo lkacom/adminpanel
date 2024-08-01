@@ -8,15 +8,9 @@ use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
-use View;
 
 class InvoiceScreen extends Screen
 {
-
-    public function __construct()
-    {
-        
-    }
 
     public function permission(): ?iterable
     {
@@ -51,13 +45,15 @@ class InvoiceScreen extends Screen
     {
         return [
             Layout::columns([
+
                 Layout::table('table', [
+
                     TD::make('id',__('ID'))
                         ->filter(Input::make())
                         ->sort(),
                     TD::make('user_id',__('Email'))
                         ->render(function (Invoice $invoice) {
-                            return $invoice->users->email;
+                            return $invoice->user->email;
                         })
                         ->sort()
                         ->filter(Input::make()),

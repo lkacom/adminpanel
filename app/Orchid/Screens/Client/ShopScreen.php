@@ -2,9 +2,9 @@
 
 namespace App\Orchid\Screens\Client;
 
+use App\Models\Order;
 use App\Models\Product;
 use Auth;
-use Mirbaagheri\Cart\Facades\Cart;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
@@ -14,10 +14,12 @@ use App\Orchid\Layout;
 
 class ShopScreen extends Screen
 {
+
     public function permission(): ?iterable
     {
         return ['client.shop.index'];
     }
+
     public function query(): iterable
     {
         return [
@@ -42,7 +44,6 @@ class ShopScreen extends Screen
 
     public function layout(): iterable
     {
-        dd(Cart::content());
         return [
             Layout::columns([
                 Layout::table('products', [

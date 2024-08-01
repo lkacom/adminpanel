@@ -23,6 +23,7 @@ class Transaction extends Model
         'amount',
         'invoice_id',
         'transaction_id',
+        'tracking_cookie',
         'comment'
     ];
 
@@ -44,9 +45,8 @@ class Transaction extends Model
         'created_at',
     ];
 
-    public function Invoice()
+    public function invoice()
     {
-        return $this->belongsTo(Invoice::class,'invoice_id');
+        return $this->hasOne(Invoice::class,'id','invoice_id');
     }
-
 }

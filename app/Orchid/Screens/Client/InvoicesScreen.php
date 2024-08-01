@@ -17,18 +17,13 @@ class InvoicesScreen extends Screen
         return ['client.invoices.index'];
     }
 
-    public function create()
-    {
-        dd('Create Invoice ...');
-    }
-
     public function query(): iterable
     {
         $userEmail = Auth::id();
         $myservice = Invoice::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(10);
 
         return [
-            'table'   => ($myservice),
+            'invoices'   => ($myservice),
         ];
     }
 
@@ -50,7 +45,8 @@ class InvoicesScreen extends Screen
     {
         return [
             Layout::columns([
-                Layout::table('table', [
+
+                Layout::table('invoices', [
 
                     TD::make('id',__('ID'))
                         ->filter(Input::make())
@@ -58,7 +54,7 @@ class InvoicesScreen extends Screen
 
                     TD::make('user_id',__('Email'))
                         ->render(function (Invoice $invoice) {
-                            return $invoice->users->email;
+                            return $invoice->user->email;
                         })
                         ->sort()
                         ->filter(Input::make()),

@@ -89,9 +89,9 @@ class ProductResource extends Resource
     {
         return [
             TD::make('id', __('ID')),
-            TD::make('VPN_Name', __('Name'))
+            TD::make('name', __('Name'))
                 ->render(function ($model) {
-                    return "{$model->VPN_Name} {$model->period->period_time} {$model->protocol->protocol_name} {$model->server->server_name}";
+                    return "{$model->name} {$model->period->duration} {$model->protocol->name} {$model->server->name}";
                 }),
 
 

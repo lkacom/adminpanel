@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uuid');
             $table->foreignId('invoice_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('relation_type');
             $table->string('relation_id');
             $table->json('attributes')->nullable();
