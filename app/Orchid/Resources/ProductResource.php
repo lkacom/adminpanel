@@ -113,7 +113,7 @@ class ProductResource extends Resource
         return [
             Sight::make('Product Details')
                 ->render(function ($model) {
-                    return "{$model->VPN_Name} {$model->period->period_time} {$model->protocol->protocol_name} {$model->server->server_name}";
+                    return "{$model->name} {$model->period->period_time} {$model->protocol->name} {$model->server->name}";
                 }),
 
         ];

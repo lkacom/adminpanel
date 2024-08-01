@@ -75,18 +75,23 @@ class VerifyPaymentController extends Controller
             $invoice->status = $response->data->code;
             $invoice->save();
 
-            if($invoice->status == 0){
+            if($invoice->status == 1){
                 foreach($invoice->orders as $order){
-                    $productDuration = $order->product->period->getRawOriginal('duration');
-                    $expiryTime = Carbon::now()->addSeconds($productDuration);
-                    $v2rayConfig = v2ray()->createClient($this->user,$expiryTime->timestamp*1000);
+                    if($order->status == 0){
+                        $productDuration = $order->product->period->getRawOriginal('duration');
+                        $expiryTime = Carbon::now()->addSeconds($productDuration);
+                        $v2ray = v2ray()->createClient($this->user,$expiryTime->timestamp*1000);
+                        $fragment = $v2ray->fragment;
+                        $direct = $v2ray->config;
+                        $subscription = $v2ray->subscription;
 
-                    $order->attributes = json_encode(compact('v2rayConfig','expiryTime'));
-                    $order->status = 1;
-                    $order->save();
+                        $order->attributes = json_encode(compact('subscription','direct','fragment','expiryTime'));
+                        $order->status = 1;
+                        $order->save();
 
-                    Mail::send(new ClientNewService($this->user,$order));
-                    return true;
+                        Mail::send(new ClientNewService($this->user,$order));
+                        return true;
+                    }
                 }
             }
             return false;

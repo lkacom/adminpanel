@@ -57,7 +57,7 @@ class ServerResource extends Resource
     public function fields(): array
     {
         return [
-            Input::make('server_name')->horizontal()
+            Input::make('name')->horizontal()
                 ->title('Location')
                 ->placeholder('Enter Country Name'),
         ];
@@ -67,7 +67,7 @@ class ServerResource extends Resource
     {
         return [
             TD::make('id','Number'),
-            TD::make('server_name','Location'),
+            TD::make('name','Location'),
             TD::make('created_at', 'Date of creation')
                 ->render(function ($model) {
                     return $model->created_at->toDateTimeString();
@@ -84,7 +84,7 @@ class ServerResource extends Resource
     {
         return [
             Sight::make('id','Number'),
-            Sight::make('server_name','Server'),
+            Sight::make('name','Server'),
         ];
     }
 

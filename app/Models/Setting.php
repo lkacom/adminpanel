@@ -10,16 +10,11 @@ use Orchid\Filters\Filterable;
 use Orchid\Metrics\Chartable;
 use Orchid\Screen\AsSource;
 
-class Server extends Model
+class Setting extends Model
 {
-    use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess;
-
-    protected $table = 'servers' ;
-
+    use AsSource, Chartable, Filterable, HasFactory, Notifiable, UserAccess, Filterable;
     protected $fillable = [
-        'name'
+        'address',
+        'phone',
     ];
-
-
-
 }

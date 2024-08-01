@@ -5,6 +5,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use DNS2D;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
@@ -21,9 +22,11 @@ class OrdersScreen extends Screen
     public function query(): iterable
     {
         $user = Auth::user();
+        //$orders = Order::query()->where('user_id' , $userEmail)->filters()->defaultSort('id')->paginate(4);
 
         return [
             'orders'   => $user->orders,
+            //'orders' => Order::filters()->defaultSort('id')->paginate(10),
         ];
     }
 
@@ -52,14 +55,14 @@ class OrdersScreen extends Screen
                         ->filter(Input::make())
                         ->sort(),
 
-                    TD::make('user_id',__('Email'))
+                    TD::make('product_id',__('Product'))
                         ->render(function (Order $invoice) {
-                            return $invoice->user->email;
+                            return $invoice->product->name;
                         })
                         ->sort()
                         ->filter(Input::make()),
 
-                    TD::make('name',__('Type'))
+                    TD::make('created_at',__('Order Date'))
                         ->filter(Input::make())
                         ->sort(),
 
@@ -73,15 +76,6 @@ class OrdersScreen extends Screen
                         })
                         ->sort(),
 
-                    TD::make('config',__('Config'))
-                        ->render(function (Order $order) {
-                            if($order->attributes){
-                                $QR = DNS2D::getBarcodePNG(url('qr/' . $order->uuid), 'QRCODE', 4.55, 4.55);
-                                return "<img src='data:image/png;base64,$QR'/>";
-                            }
-                            return '';
-                        }),
-
                     TD::make('status',__('Status'))
                         ->render(function (Order $order) {
                             if($order->attributes){
@@ -90,6 +84,13 @@ class OrdersScreen extends Screen
                                     : '<i class="text-danger circle">Expired</i>';
                             }
                             return '<i class="text-warning circle">Pending</i>';
+                        }),
+
+                    TD::make(__('Actions'))
+                        ->render(function (Order $invoice) {
+                            return Link::make(__('Details'))
+                                ->route('client.detail', $invoice->id)
+                                ->icon('eye');
                         }),
                 ]),
             ]),

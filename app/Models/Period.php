@@ -26,7 +26,8 @@ class Period extends Model
     {
         return Attribute::make(
             get: function ($duration) {
-                return $this->convertSecToTime($duration);
+                return $duration;
+                //return $this->convertSecToTime($duration);
             },
             set: function ($duration) {
                 $type = request()->get('model')['type'];

@@ -3,18 +3,27 @@
 namespace App\Orchid\Screens\Client;
 
 use App\Models\Order;
-use App\Models\Invoice;
-use App\Models\Transaction;
 use Carbon\Carbon;
 use DNS2D;
 use Illuminate\Support\Facades\Auth;
-use Orchid\Screen\Fields\Label;
 use Orchid\Screen\Screen;
 use Orchid\Screen\TD;
 use Orchid\Support\Facades\Layout;
+use Orchid\Screen\Fields\Label;
 
-class DashboardScreen extends Screen
+class DetailsScreen extends Screen
 {
+    public function query(): iterable
+    {
+        $userEmail = Auth::id();
+        $order = Order::query()->where('user_id', $userEmail)->where('id', request('id'))->get();
+
+        return [
+            'order'   => $order,
+
+        ];
+    }
+
     public function __construct()
     {
         addJavascriptFile('assets/plugins/jQuery/3.7.1/jquery-3.7.1.min.js');
@@ -22,59 +31,35 @@ class DashboardScreen extends Screen
         addJavascriptFile('assets/js/scripts.bundle.js');
         addJavascriptFile('assets/js/copy.js');
     }
-    public function permission(): ?iterable
-    {
-        return ['client.dashboard'];
-    }
 
     public function name(): ?string
     {
-        return __('Dashboard');
+        return __('Orders Details');
     }
-    public function query(): iterable
+    public function description(): ?string
     {
-        $userEmail = Auth::id();
+        return __('Get Config and Accounts');
+    }
 
-        $clientServices = Order::query()->where('user_id' , $userEmail)->latest()->limit(1)->get();
-        $account = Transaction::query()->where('invoice_id' , $userEmail)->get();
-        $paid = Invoice::query()->where('user_id' , $userEmail)->get();
-
-        if (!$clientServices)
-            echo "No record found.";
-
-        return [
-
-            'table'   => ($clientServices),
-
-            'metrics' => [
-                'paid'      => ['value' => $paid->Where('status' , '1')->count()],
-                'active'    => ['value' => $account->count()],
-                'expire'    => ['value' => $account->count()],
-            ],
-
-        ];
+    public function commandBar(): iterable
+    {
+        return [];
     }
 
     public function layout(): iterable
     {
         return [
-            Layout::metrics([
-                __('Paid Account')    => 'metrics.paid',
-                __('Active Accounts') => 'metrics.active',
-                __('Expired Account') => 'metrics.expire',
-            ]),
-
-            Layout::rows([
-                Label::make('title')
-                    ->title(__('Last Config')),
-            ]),
 
             Layout::tabs([
                 __('Direct Config') => [
-                    Layout::table('table', [
+                    Layout::table('order', [
                         TD::make('id',__('ID')),
+                        TD::make('product_id',__('Product'))
+                            ->render(function (Order $order) {
+                                return $order->product->name;
+                            }),
                         TD::make('description',__('description')),
-                        TD::make('expiration_date',__('Expire Date')),
+                        TD::make('created_at',__('Expire Date')),
                         TD::make('attributes',__('Config'))
                             ->popover(__('Click on QR-Code for Copy Config'))
                             ->render(function ($order) {
@@ -103,10 +88,14 @@ class DashboardScreen extends Screen
 
                 ],
                 __('Fragment') => [
-                    Layout::table('table', [
+                    Layout::table('order', [
                         TD::make('id',__('ID')),
+                        TD::make('product_id',__('Product'))
+                            ->render(function (Order $order) {
+                                return $order->product->name;
+                            }),
                         TD::make('description',__('description')),
-                        TD::make('expiration_date',__('Expire Date')),
+                        TD::make('created_at',__('Expire Date')),
                         TD::make('attributes',__('Config'))
                             ->popover(__('Click on QR-Code for Copy Config'))
                             ->render(function ($order) {
@@ -136,10 +125,14 @@ class DashboardScreen extends Screen
                 ],
 
                 __('Subscription') => [
-                    Layout::table('table', [
+                    Layout::table('order', [
                         TD::make('id',__('ID')),
+                        TD::make('product_id',__('Product'))
+                            ->render(function (Order $order) {
+                                return $order->product->name;
+                            }),
                         TD::make('description',__('description')),
-                        TD::make('expiration_date',__('Expire Date')),
+                        TD::make('created_at',__('Expire Date')),
                         TD::make('attributes',__('Config'))
                             ->popover(__('Click on QR-Code for Copy Config'))
                             ->render(function ($order) {
@@ -175,6 +168,11 @@ class DashboardScreen extends Screen
                     ->title(__('Note: For Copy config to clipboard please click on QRCode ')),
             ]),
 
+
+
+
         ];
     }
+
 }
+

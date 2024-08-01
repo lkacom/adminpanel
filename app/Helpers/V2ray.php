@@ -2,12 +2,13 @@
 namespace App\Helpers;
 
 use Http;
-use InvalidArgumentException;
 use Storage;
 use Str;
 
 class V2ray
 {
+    public $client_id;
+    public $subscription;
     public $config;
 
     public $protocol;
@@ -51,22 +52,22 @@ class V2ray
 
     public function createClient($user,$expiryTime = 0)
     {
-        $v2ray_client_id = 't'.rand(10000, 99999).'-'.Str::limit($user->email, 23,'');
+        $this->client_id = 't'.rand(10000, 99999).'-'.Str::limit($user->email, 23,'');
         $cookie = $this->v2rayLogin()->cookies();
         $settings = collect(
             [
                 "clients" =>
                     [
                         0 => [
-                            "id"            => str_replace('@','-',$v2ray_client_id),
+                            "id"            => str_replace('@','-',$this->client_id),
                             "alterId"       => 0,
-                            "email"         => $v2ray_client_id,
+                            "email"         => $this->client_id,
                             "limitIp"       => 2,
                             "totalGB"       => 0,
                             "expiryTime"    => $expiryTime,
                             "enable"        => true,
                             "tgId"          => null,
-                            "subId"         => $v2ray_client_id,
+                            "subId"         => $this->client_id,
                         ]
                     ]
             ]
@@ -78,14 +79,18 @@ class V2ray
             'settings' => $settings->toJson(),
         ]);
         $result = $response->object();
-        if($result->success)
-            return $this->createFragment($v2ray_client_id);
+        if($result->success){
+            $this->subscription = $this->SubscriptionUrl.'/'.$this->client_id;
+            $this->createFragment();
+            return $this;
+        }
+
         exit('Error 6574');
     }
 
-    protected function createFragment($id)
+    protected function createFragment()
     {
-        $response = Http::get($this->SubscriptionUrl.'/'.$id);
+        $response = Http::get($this->subscription);
         $this->config = base64_decode($response->body());
         $this->parseConfig();
         return $this->generateJson();

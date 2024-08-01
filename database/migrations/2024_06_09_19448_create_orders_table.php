@@ -16,12 +16,14 @@ return new class extends Migration
             $table->string('uuid');
             $table->foreignId('invoice_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->string('relation_type');
-            $table->string('relation_id');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('relation_type')->nullable();
+            $table->string('relation_id')->nullable();
             $table->json('attributes')->nullable();
             $table->string('description')->nullable();
             $table->integer('quantity')->default(1);
-            $table->boolean('renew')->nullable();
+            $table->boolean('renew')->default(true);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
